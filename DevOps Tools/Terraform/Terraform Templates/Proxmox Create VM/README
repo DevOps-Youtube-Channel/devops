@@ -1,4 +1,4 @@
-Terraform Build Template Code For Proxmox
+Шаблон для развёртываения виртуальных машин на гипервизоре Proxmox с помощью Terraform
 
 Terraform Plan & Terraform Apply - See Planned output of resources to deploy and apply to deploy the planned resources
 
