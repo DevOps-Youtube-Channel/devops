@@ -1,7 +1,0 @@
-deb http://mirror.yandex.ru/debian/ buster main
-deb-src http://mirror.yandex.ru/debian/ buster main
- 
-deb http://mirror.yandex.ru/debian/ buster-updates main
-deb-src http://mirror.yandex.ru/debian/ buster-updates main
-#deb http://mirror.yandex.ru/debian/ buster-backports main
-#deb-src http://mirror.yandex.ru/debian/ buster-backports main
