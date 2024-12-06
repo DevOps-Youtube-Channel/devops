@@ -10,7 +10,7 @@ Work on all popular linux system (Debian, Ubuntu, Arch Linux etc..)
 
 ### Install
 1) Clone or download to /opt/ folder
-```cd /opt/ && git clone https://github.com/DevOps-Youtube-Channel/devops/tree/main/DevOps%20Tools/Monitoring/SSH_Login_Monitoring```
+```cd /opt/ && git clone https://github.com/DevOps-Youtube-Channel/devops && cd ```
 
 2) Edit two configuration variables by editing credentials.config:
 ```vim credentials.config```
