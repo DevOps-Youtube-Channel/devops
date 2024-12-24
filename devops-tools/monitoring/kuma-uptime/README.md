@@ -4,7 +4,7 @@
 
 
 ### Установка
-1) Установите Docker: ```https://github.com/DevOps-Youtube-Channel/devops/tree/main/devops-tools/docker/install/ubuntu``
+1) Установите Docker: ```https://github.com/DevOps-Youtube-Channel/devops/tree/main/devops-tools/docker/install/ubuntu```
 2) Создайте файл docker-compose.yaml
 
   ```services:
