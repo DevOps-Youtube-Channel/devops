@@ -9,19 +9,19 @@
 - git
 
 ### Установка
-1) Сначала создайте папку        ```mkdir -p /opt/ssh-login-alert-telegram && cd /opt/ssh-login-alert-telegram```
+1) Сначала создайте папку  ```mkdir -p /opt/ssh-login-alert-telegram && cd /opt/ssh-login-alert-telegram```
    
-2) Клонируем либо скачаем архив в эту папку   ```git clone https://github.com/DevOps-Youtube-Channel/devops && cd devops/devops-tools/monitoring/ssh-login-monitoring```
+2) Клонируем либо скачаем архив  ```git clone https://github.com/DevOps-Youtube-Channel/devops && mv devops/devops-tools/monitoring/ssh-login-monitoring/* /opt/ssh-login-alert-telegram```
 
-3) Edit two configuration variables by editing credentials.config:
-```vim credentials.config```
+3) Редактируем два переменных в файле credentials.config:
+```nano credentials.config```
 
-4) Add this script when user connect with the deploy script:
+4) Выполянем скрипт:
 ```bash deploy.sh```
 
-5) Confirm that the script is working by logging you to ssh again.
+5) Все теперь можем проверить подключив к серверу по ssh.
 
 
-### Install with Ansible
+### Установка по Ansible (источник)
 
-If you have many servers go check: https://github.com/MyTheValentinus/Deploy-Telegram-SSH-Alerting-with-Ansible (fork of initial @stylernico work)
+Если у вас много серверов: https://github.com/MyTheValentinus/Deploy-Telegram-SSH-Alerting-with-Ansible (fork of initial @stylernico work)
