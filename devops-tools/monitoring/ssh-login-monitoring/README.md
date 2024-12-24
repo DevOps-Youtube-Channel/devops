@@ -9,16 +9,17 @@
 - git
 
 ### Установка
-1) Сначала создайте папку 
-```cd /opt/ && git clone https://github.com/DevOps-Youtube-Channel/devops && cd devops/devops-tools/monitoring/ssh-login-monitoring```
+1) Сначала создайте папку        ```mkdir -p /opt/ssh-login-alert-telegram && cd /opt/ssh-login-alert-telegram```
+   
+2) Клонируем либо скачаем архив в эту папку   ```git clone https://github.com/DevOps-Youtube-Channel/devops && cd devops/devops-tools/monitoring/ssh-login-monitoring```
 
-2) Edit two configuration variables by editing credentials.config:
+3) Edit two configuration variables by editing credentials.config:
 ```vim credentials.config```
 
-3) Add this script when user connect with the deploy script:
+4) Add this script when user connect with the deploy script:
 ```bash deploy.sh```
 
-4) Confirm that the script is working by logging you to ssh again.
+5) Confirm that the script is working by logging you to ssh again.
 
 
 ### Install with Ansible
