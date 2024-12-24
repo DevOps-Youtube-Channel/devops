@@ -1,15 +1,15 @@
-## Alert via telegram when user logon via SSH
+## Уведомления когда пользователь заходит в сервер по SSH
 
-Work on all popular linux system (Debian, Ubuntu, Arch Linux etc..)
+Работает в популярных Linux системах (Debian, Ubuntu, Arch Linux итд..)
 
 ![Example](msg.png)
 
-#### Requirement
+### Зависимости
 - curl
-- git (much easy to install)
+- git
 
-### Install
-1) Clone or download to /opt/ folder
+### Установка
+1) Сначала создайте папку 
 ```cd /opt/ && git clone https://github.com/DevOps-Youtube-Channel/devops && cd devops/devops-tools/monitoring/ssh-login-monitoring```
 
 2) Edit two configuration variables by editing credentials.config:
