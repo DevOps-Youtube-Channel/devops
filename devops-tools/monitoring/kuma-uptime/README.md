@@ -3,24 +3,14 @@
 ![Example](kuma-uptime.png)
 
 
-                                                 ### Установка
+
+
+### Установка
 1) Установите Docker: ```https://github.com/DevOps-Youtube-Channel/devops/tree/main/devops-tools/docker/install/ubuntu```
    
-2) Создайте файл: ```docker-compose.yaml```
+2) Запускайте compose файл: ```docker-compose up -d```
 
-  ```services:
-  uptime-kuma:
-    image: louislam/uptime-kuma:1
-    volumes:
-      - ./data:/app/data
-    ports:
-      # <Host Port>:<Container Port>
-      - 3001:3001
-    restart: always```
-
-3) Запускайте compose файл: ```docker-compose up -d```
-
-4) Запросите страницу:  ```http://xxx.xxx.xxx.xxx:3001```
+3) Запросите страницу:  ```http://xxx.xxx.xxx.xxx:3001```
 
 
 
