@@ -11,7 +11,7 @@
 ### Установка
 1) Сначала создайте папку  ```mkdir -p /opt/ssh-login-alert-telegram && cd /opt/ssh-login-alert-telegram```
    
-2) Клонируем либо скачаем архив  ```git clone https://github.com/DevOps-Youtube-Channel/devops && mv devops/devops-tools/monitoring/ssh-login-monitoring/* /opt/ssh-login-alert-telegram```
+2) Клонируем либо скачаем архив  ```git clone https://github.com/DevOps-Youtube-Channel/devops && mv devops/devops-tools/monitoring/ssh-login-monitoring/* /opt/ssh-login-alert-telegram/```
 
 3) Редактируем два переменных в файле credentials.config:
 ```nano credentials.config```
