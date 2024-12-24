@@ -4,7 +4,7 @@ Work on all popular linux system (Debian, Ubuntu, Arch Linux etc..)
 
 ![Example](msg.png)
 
-### Requirement
+#### Requirement
 - curl
 - git (much easy to install)
 
