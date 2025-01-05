@@ -1,6 +1,4 @@
 ## Chrony NTP Server
-
-
 ![Example](images/chrony-ntp.png)
 
 
