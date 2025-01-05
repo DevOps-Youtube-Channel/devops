@@ -3,7 +3,7 @@
 Работает в популярных Linux системах (Debian, Ubuntu, Arch Linux итд..)
 
 ![Example](images/chrony-ntp.png)
-
+![Example](images/dashboard_dark.png)
 ### Зависимости
 - curl
 - git
