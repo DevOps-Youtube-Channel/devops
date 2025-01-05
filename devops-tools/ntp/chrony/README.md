@@ -1,27 +1,18 @@
-## Уведомления когда пользователь заходит в сервер по SSH
+## Chrony NTP Server
 
-Работает в популярных Linux системах (Debian, Ubuntu, Arch Linux итд..)
 
 ![Example](images/chrony-ntp.png)
-![Example](images/dashboard_dark.png)
-### Зависимости
-- curl
-- git
 
-### Установка
-1) Сначала создайте папку  ```mkdir -p /opt/ssh-login-alert-telegram && cd /opt/ssh-login-alert-telegram```
+
+
+### Установка в Ubuntu
+1) Сначала обновим список пакетов  ```apt-get update```
+2) Установим сам Chrony ```apt-get install chrony -y```
+3) Установим Timezone ```timedatectl set-timezone Asia/Tashkent```
+4) Перезапустим сервис и посмотрим статус
+   ```systemctl restart chronyd.service```
+   ```systemctl status chronyd.service```
    
-2) Клонируем либо скачаем архив  ```git clone https://github.com/DevOps-Youtube-Channel/devops && mv devops/devops-tools/monitoring/ssh-login-monitoring/* /opt/ssh-login-alert-telegram/```
 
-3) Редактируем два переменных в файле credentials.config:
-```nano credentials.config```
-
-4) Выполянем скрипт:
-```bash deploy.sh```
-
-5) Все теперь можем проверить уведомлению подключив к серверу по ssh.
-
-
-### Установка по Ansible (источник)
-
-Если у вас много серверов: https://github.com/MyTheValentinus/Deploy-Telegram-SSH-Alerting-with-Ansible (fork of initial @stylernico work)
+### Официальная документация
+https://chrony-project.org/
