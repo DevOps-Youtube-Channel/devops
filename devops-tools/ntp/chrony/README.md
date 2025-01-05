@@ -10,8 +10,19 @@
 ### Пример конфиг файла сервера
 ![Example](images/chrony-server.png)
 
+### Команды сервера
+1) Включение использование systemd-timesyncd для синхронизации времени ```timedatectl set-ntp true```
+2) Установка Timezone ```timedatectl set-timezone Asia/Tashkent```
+3) Проверка текущего источника времени  ```chronyc sources```
+4) Проверка статуса источников NTP ```chronyc activity```
+5) Список клиентов ```chronyc clients```
+
 ### Пример конфиг файла клиента
 ![Example](images/chrony-client.png)
+
+### Команды клиента
+1) Включение использование systemd-timesyncd для синхронизации времени ```timedatectl set-ntp true```
+2) Проверка текущего источника времени  ```chronyc sources```
 
 ### Официальная документация
 https://chrony-project.org/
