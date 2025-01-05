@@ -10,7 +10,7 @@
 2) Установим сам Chrony ```apt-get install chrony -y```
 3) Установим Timezone ```timedatectl set-timezone Asia/Tashkent```
 4) Перезапустим сервис и посмотрим статус
-   ```systemctl restart chronyd.service```
+   ```systemctl restart chronyd.service &&```
    ```systemctl status chronyd.service```
    
 
