@@ -2,7 +2,7 @@
 
 Работает в популярных Linux системах (Debian, Ubuntu, Arch Linux итд..)
 
-![Example](chrony-ntp.png)
+![Example](images/chrony-ntp.png)
 
 ### Зависимости
 - curl
