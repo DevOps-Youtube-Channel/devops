@@ -12,18 +12,33 @@
    ```
    Ansible-Node     192.168.95.21   CPU-2 RAM-4GB   Ubuntu-22.04
    ```
-
-3) Сгенирируем ssh ключ у Ansible-Node
+3) Создадим на всех виртуальных машинах нового юзера
    ```
+   adduser fara
+   ```
+4) Добавим созданного юзера в sudo группу а так же в безпарольную группу  
+    ```
+   nano /etc/sudoers
+
+   fara ALL=(ALL) NOPASSWD:ALL
+   ```
+5) Сгенирируем ssh ключ у Ansible-Node у юзера fara
+   ```
+   adduser fara
+   
+   nano /etc/sudoers
+   fara ALL=(ALL) NOPASSWD:ALL
+
+   sudo su - fara
    ssh-keygen -t rsa
    ```
-4) Копируем созданный ключ хостам c Ansible-Node
+6) Копируем созданный ключ хостам c Ansible-Node от юзера fara
    ```
-   ssh-copy-id 192.168.95.15
-   ssh-copy-id 192.168.95.16
-   ssh-copy-id 192.168.95.17
-   ssh-copy-id 192.168.95.18
-   ssh-copy-id 192.168.95.19
-   ssh-copy-id 192.168.95.20 
+   ssh-copy-id -i ~/.ssh/id_rsa.pub fara@192.168.95.15
+   ssh-copy-id -i ~/.ssh/id_rsa.pub fara@192.168.95.16
+   ssh-copy-id -i ~/.ssh/id_rsa.pub fara@192.168.95.17
+   ssh-copy-id -i ~/.ssh/id_rsa.pub fara@192.168.95.18
+   ssh-copy-id -i ~/.ssh/id_rsa.pub fara@192.168.95.19
+   ssh-copy-id -i ~/.ssh/id_rsa.pub fara@192.168.95.20
    ```
-   
+7) 
