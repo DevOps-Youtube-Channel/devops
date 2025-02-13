@@ -41,4 +41,25 @@
    ssh-copy-id -i ~/.ssh/id_rsa.pub fara@192.168.95.19
    ssh-copy-id -i ~/.ssh/id_rsa.pub fara@192.168.95.20
    ```
-7) 
+7) Далее установим pip
+    ```
+   sudo apt install python3-pip
+   sudo pip3 install --upgrade pip
+   pip --version
+   ```
+8) Клонируем Kubespray репозиторию
+   ```
+   git clone https://github.com/kubernetes-sigs/kubespray.git
+   cd kubespray
+   sudo pip install -r requirements.txt
+   ```
+9) Копируем пирмер
+   ```
+   cp -rfp inventory/sample inventory/mycluster
+   declare -a IPS=(192.168.95.15 192.168.95.16 192.168.95.17 192.168.95.18 192.168.95.19 192.168.95.20)
+   CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
+   ```
+10) Запускаем плейбук
+    ```
+    ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root cluster.yml
+    ```
