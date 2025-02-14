@@ -66,6 +66,19 @@
     
 ![Ansible-Playbook-Result](images/Ansible-Playbook.png)
 
+12) Переходим в Master-Node-1
+    ```
+    ssh fara@192.168.95.15
+    export KUBECONFIG=/etc/kubernetes/admin.conf
+    kubectl get nodes
+    ```
+13) Видим список Node и Pod
+  ![Ansible-Playbook-Result](images/get-nodes.png)
+
+
+  ![Ansible-Playbook-Result](images/get-pods.png)
+
+
 
 Официальный Github Kubespray
 ```
