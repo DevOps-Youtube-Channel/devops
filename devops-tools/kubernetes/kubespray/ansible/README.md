@@ -73,6 +73,7 @@
     kubectl get nodes
     ```
 13) Видим список Node и Pod
+
   ![Ansible-Playbook-Result](images/get-nodes.png)
 
 
