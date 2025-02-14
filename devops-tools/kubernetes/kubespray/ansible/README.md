@@ -69,6 +69,7 @@
 12) Переходим в Master-Node-1
     ```
     ssh fara@192.168.95.15
+    sudo chmod 775 /etc/kubernetes/admin.conf
     export KUBECONFIG=/etc/kubernetes/admin.conf
     kubectl get nodes
     kubectl get pods -A
