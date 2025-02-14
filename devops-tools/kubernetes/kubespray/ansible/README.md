@@ -58,7 +58,6 @@
    ```
    cp -rfp inventory/sample inventory/mycluster
    declare -a IPS=(192.168.95.15 192.168.95.16 192.168.95.17 192.168.95.18 192.168.95.19 192.168.95.20)
-   pip3 install ruamel.yaml
    CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
    ```
 10) Запускаем плейбук
