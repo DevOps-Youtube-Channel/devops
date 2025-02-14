@@ -71,6 +71,7 @@
     ssh fara@192.168.95.15
     export KUBECONFIG=/etc/kubernetes/admin.conf
     kubectl get nodes
+    kubectl get pods -A
     ```
 13) Видим список Node и Pod
 
