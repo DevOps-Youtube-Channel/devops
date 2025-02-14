@@ -28,10 +28,6 @@
 5) Сгенирируем ssh ключ у Ansible-Node у юзера fara
    ```
    adduser fara
-   
-   nano /etc/sudoers
-   fara ALL=(ALL) NOPASSWD:ALL
-
    sudo su - fara
    ssh-keygen -t rsa
    ```
