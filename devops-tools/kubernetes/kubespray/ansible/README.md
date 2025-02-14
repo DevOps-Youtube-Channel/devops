@@ -65,3 +65,9 @@
 11) Видим резултать
     
 ![Ansible-Playbook-Result](images/Ansible-Playbook.png)
+
+
+Официальный Github
+```
+https://github.com/kubernetes-sigs/kubespray
+```
