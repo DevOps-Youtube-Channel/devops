@@ -67,7 +67,7 @@
 ![Ansible-Playbook-Result](images/Ansible-Playbook.png)
 
 
-Официальный Github
+Официальный Github Kubespray
 ```
 https://github.com/kubernetes-sigs/kubespray
 ```
