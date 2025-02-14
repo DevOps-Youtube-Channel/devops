@@ -1,3 +1,6 @@
+![Ansible-Playbook-Result](images/Ansible-Playbook.png)
+
+
 1) Первый очередь поднимем все виртуальные машины
    ```
    Master-Node-1	  192.168.95.15   CPU-2 RAM-4GB   Ubuntu-22.04
