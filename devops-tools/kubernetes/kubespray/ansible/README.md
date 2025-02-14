@@ -51,6 +51,7 @@
    ```
    git clone https://github.com/kubernetes-sigs/kubespray.git
    cd kubespray
+   git checkout tags/v2.26.0
    sudo pip install -r requirements.txt
    ```
 9) Копируем пирмер
