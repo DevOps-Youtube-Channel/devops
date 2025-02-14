@@ -1,4 +1,4 @@
-
+![Ansible-Kubespray-Install](images/Kubespray-Ansible-Install.png)
 
 1) Первый очередь поднимем все виртуальные машины
    ```
@@ -62,5 +62,6 @@
     ```
     ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root cluster.yml
     ```
-11) Видим резултать 
+11) Видим резултать
+    
 ![Ansible-Playbook-Result](images/Ansible-Playbook.png)
