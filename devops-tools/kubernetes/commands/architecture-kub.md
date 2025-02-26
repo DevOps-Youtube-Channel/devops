@@ -10,7 +10,7 @@
 4) Как посмотреть список namespace в Кубернетесе?
    ```kubectl get namespaces```
    
-5) Как создать pod в дефольтном namespace под названием nginx-sadatov?
+5) Как создать pod в default namespace под названием nginx-sadatov?
    ```kubectl run nginx-sadatov --image nginx:latest --port 80 -n```
    
 6) Как создать pod в Кубернетес под своим namespace nginx-sadatov?
