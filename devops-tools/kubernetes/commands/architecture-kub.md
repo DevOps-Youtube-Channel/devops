@@ -27,3 +27,6 @@
 10) Как зайти внутрь pod-a ? ```kubectl -n f-sadatov exec -it nginx -- bash```
 11) Как опубликовать deployment через NodePort? ```kubectl expose deployment nginx-arm --port 80 --target-port 80 --type NodePort -n f-sadatov```
 12) Как отредактировать созданный Service? ```kubectl edit svc nginx-arm -n f-sadatov```
+
+                                    Ingress
+1) Как создать ingress? ```kubectl create ingress flaskapp-clusterip-ingress --rule="f-sadatov.sts404.uz/*=cluster-ip-service:80" -n f-sadatov --dry-run=client -o yaml > ingress.yaml```
