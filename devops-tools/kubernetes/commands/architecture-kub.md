@@ -1,6 +1,6 @@
                                       Docker
 
-1) Как собрать докер образ под arm64? ```docker buildx create --use``` &&  ```docker buildx build --platform linux/arm64 -t flask-app:v1 --load .```
+1) Как собрать докер образ под arm64? ```docker buildx create --use && docker buildx build --platform linux/arm64 -t flask-app:v1 --load .```
                                         
                                         
                                         POD
