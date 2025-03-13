@@ -36,3 +36,4 @@
 
                                     Ingress
 1) Как создать ingress? ```kubectl create ingress flaskapp-clusterip-ingress --rule="f-sadatov.sts404.uz/*=cluster-ip-service:80" -n f-sadatov --dry-run=client -o yaml > ingress.yaml```
+   Не забудь добавить добавить в поле spec следующий запись:   ingressClassName: nginx
