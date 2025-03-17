@@ -39,4 +39,4 @@
    Не забудь добавить добавить в поле spec следующий запись:   ingressClassName: nginx
 
                                      Check
-1) Для проверки какого то запроса какой образ использовать ? ```kubectl run check-pod --image nicolaka/netshoot -n exam-farrukh```
+1) Для проверки какого то запроса какой образ использовать ? ```kubectl run check-pod --image nicolaka/netshoot -n exam-farrukh -- sleep infinity```
