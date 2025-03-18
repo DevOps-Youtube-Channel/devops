@@ -35,7 +35,7 @@
 13) Как изменить deployment файл напрямую из CLI? ```kubectl edit deployment/nginx-deploy```
 
                                     Ingress
-1) Как создать ingress? ```kubectl create ingress flaskapp-clusterip-ingress --rule="f-sadatov.sts404.uz/*=cluster-ip-service:80" -n f-sadatov --dry-run=client -o yaml > ingress.yaml```
+1) Как создать ingress? ```kubectl create ingress flaskapp-clusterip-ingress --rule="f-sadatov.sts404.uz/*=cluster-ip-service:80" --class nginx -n f-sadatov --dry-run=client -o yaml > ingress.yaml```
    Не забудь добавить добавить в поле spec следующий запись:   ingressClassName: nginx
 
                                      Check
