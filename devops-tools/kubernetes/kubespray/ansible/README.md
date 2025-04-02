@@ -3,11 +3,8 @@
 1) Первый очередь поднимем все виртуальные машины
    ```
    Master-Node-1	  192.168.95.15   CPU-2 RAM-4GB   Ubuntu-22.04
-   Master-Node-2	  192.168.95.16   CPU-2 RAM-4GB   Ubuntu-22.04
-   Master-Node-3	  192.168.95.17   CPU-2 RAM-4GB   Ubuntu-22.04
-   Worker-Node-1	  192.168.95.18   CPU-2 RAM-4GB   Ubuntu-22.04
-   Worker-Node-2	  192.168.95.19   CPU-2 RAM-4GB   Ubuntu-22.04
-   Worker-Node-3	  192.168.95.20   CPU-2 RAM-4GB   Ubuntu-22.04
+   Worker-Node-2	  192.168.95.16   CPU-2 RAM-4GB   Ubuntu-22.04
+
    ```
 
 2) Для создания кластера Kubespray создадим еще одну виртуальную машину чтобы управлять через Ansible
@@ -16,57 +13,51 @@
    ```
 3) Создадим на всех виртуальных машинах нового юзера
    ```
-   adduser fara
+   adduser farrukh
    ```
 4) Добавим созданного юзера в sudo группу а так же в безпарольную группу  
     ```
    nano /etc/sudoers
 
-   fara ALL=(ALL) NOPASSWD:ALL
+   farrukh ALL=(ALL) NOPASSWD:ALL
    ```
-5) Сгенирируем ssh ключ у Ansible-Node у юзера fara
+5) Сгенирируем ssh ключ у пользователя root на Ansible-Node
    ```
-   adduser fara
-   sudo su - fara
+   sudo su - l
    ssh-keygen -t rsa
    ```
 6) Копируем созданный ключ хостам c Ansible-Node от юзера fara
    ```
-   ssh-copy-id -i ~/.ssh/id_rsa.pub fara@192.168.95.15
-   ssh-copy-id -i ~/.ssh/id_rsa.pub fara@192.168.95.16
-   ssh-copy-id -i ~/.ssh/id_rsa.pub fara@192.168.95.17
-   ssh-copy-id -i ~/.ssh/id_rsa.pub fara@192.168.95.18
-   ssh-copy-id -i ~/.ssh/id_rsa.pub fara@192.168.95.19
-   ssh-copy-id -i ~/.ssh/id_rsa.pub fara@192.168.95.20
+   ssh-copy-id -i /root/.ssh/id_rsa.pub farrukh@192.168.95.15
+   ssh-copy-id -i /root/.ssh/id_rsa.pub farrukh@192.168.95.16
    ```
-7) Далее установим pip
+7) Далее узнаем версию Python и создаем виртуальную окружению
     ```
-   sudo apt install python3-pip
-   sudo pip3 install --upgrade pip
-   pip --version
+python3 -V
+python3 -m venv kubespray-venv   
+source kubespray-venv/bin/activate 
    ```
 8) Клонируем Kubespray репозиторию
    ```
    git clone https://github.com/kubernetes-sigs/kubespray.git
    cd kubespray
-   git checkout tags/v2.26.0
-   sudo pip install -r requirements.txt
+   pip install -r requirements.txt
    ```
-9) Копируем пирмер
+9) Скопируем директорию sample чтобы создать свой интвентарь
    ```
-   cp -rfp inventory/sample inventory/mycluster
-   declare -a IPS=(192.168.95.15 192.168.95.16 192.168.95.17 192.168.95.18 192.168.95.19 192.168.95.20)
-   CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
-   ```
-10) Запускаем плейбук
+    cp -R inventory/sample inventory/mycluster
     ```
-    ansible-playbook -i inventory/mycluster/hosts.yaml --become --become-user=root cluster.yml
+10) Отредактируем файл inventory.ini и укажем хосты внутри папки mycluster
+11) Так же отредактируем нужные файлы в директории ``` /kubespray/inventory/mycluster/group_vars/k8s_cluster/ ```
+12) Запускаем плейбук
     ```
-11) Видим резултать
+    ansible-playbook -i inventory/mycluster/inventory.ini -u farrukh -b cluster.yml
+    ```
+13) Видим резултать
     
 ![Ansible-Playbook-Result](images/Ansible-Playbook.png)
 
-12) Переходим в Master-Node-1
+14) Переходим в Master-Node-1
     ```
     ssh fara@192.168.95.15
     sudo chmod 775 /etc/kubernetes/admin.conf
@@ -74,7 +65,7 @@
     kubectl get nodes
     kubectl get pods -A
     ```
-13) Видим список Node и Pod
+15) Видим список Node и Pod
 
   ![Ansible-Playbook-Result](images/get-nodes.png)
 
