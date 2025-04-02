@@ -26,7 +26,7 @@
    sudo su - l
    ssh-keygen -t rsa
    ```
-6) Копируем созданный ключ хостам c Ansible-Node от юзера fara
+6) Копируем созданный ключ хостам c Ansible-Node от юзера root
    ```
    ssh-copy-id -i /root/.ssh/id_rsa.pub farrukh@192.168.95.15
    ssh-copy-id -i /root/.ssh/id_rsa.pub farrukh@192.168.95.16
