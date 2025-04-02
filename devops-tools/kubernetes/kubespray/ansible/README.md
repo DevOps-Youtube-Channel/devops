@@ -33,9 +33,9 @@
    ```
 7) Далее узнаем версию Python и создаем виртуальную окружению
     ```
-python3 -V
-python3 -m venv kubespray-venv   
-source kubespray-venv/bin/activate 
+    python3 -V
+    python3 -m venv kubespray-venv   
+    source kubespray-venv/bin/activate 
    ```
 8) Клонируем Kubespray репозиторию
    ```
