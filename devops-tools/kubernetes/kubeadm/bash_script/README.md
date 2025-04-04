@@ -7,5 +7,5 @@ curl -sSL https://raw.githubusercontent.com/DevOps-Youtube-Channel/devops/main/d
 ### K8s worker nodes
 
 ```bash
-curl -sSL (https://raw.githubusercontent.com/DevOps-Youtube-Channel/devops/tree/main/devops-tools/kubernetes/kubeadm/bash_script/worker_install.sh | bash
+curl -sSL https://raw.githubusercontent.com/DevOps-Youtube-Channel/devops/main/devops-tools/kubernetes/kubeadm/bash_script/worker_install.sh | bash
 ```
