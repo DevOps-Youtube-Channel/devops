@@ -121,14 +121,12 @@ sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --cri-socket unix:///var/run/
  sudo chown $(id -u):$(id -g) $HOME/.kube/config
  export KUBECONFIG=/etc/kubernetes/admin.conf
  kubectl taint nodes master-node node.kubernetes.io/not-ready:NoSchedule-
+ kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
  kubectl get nodes
 
- 16) Установим Cilium
- kubectl apply -f https://github.com/cilium/cilium/releases/download/v1.13.0/cilium.yaml
-
- 17) Печатать токен у мастера
+ 16) Печатать токен у мастера
  kubeadm token create --print-join-command
  kubeadm join 192.168.8.120:6443 — token dg67p7.wvt7n5zxx9pxbmaz — discovery-token-ca-cert-hash sha256:36f9eb64ef8a6d45254b8994108b0e3a56e856bcb3b07d46cd83554db4114490
 
- 18) Посмотреть список нодов
+ 17) Посмотреть список нодов
  kubectl get nodes -o wide
