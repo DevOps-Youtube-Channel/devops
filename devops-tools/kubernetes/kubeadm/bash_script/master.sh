@@ -20,7 +20,7 @@ sudo apt update
 sudo apt -y full-upgrade
 
 2) Установим время
-sudo apt install systemd-timesyncd
+sudo apt install -y systemd-timesyncd
 sudo timedatectl set-ntp true
 sudo timedatectl status
 
