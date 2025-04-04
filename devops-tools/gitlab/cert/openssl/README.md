@@ -1,7 +1,4 @@
-Step1: Generate certificate key pair for Gitlab server FQDN
-
-mkdir ssl
-cd ssl/
+1. Cгенерируем ключ для домена:   ```mkdir ssl && cd ssl/```
 
 cat sslcert.conf 
 [req]
