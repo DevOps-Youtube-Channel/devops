@@ -32,11 +32,12 @@ DNS.2 = gitrunner.stack.com
 ```sudo mkdir -p /etc/gitlab/ssl```
 ```sudo chmod 755 /etc/gitlab/ssl```
 ```sudo cp gitserver.stack.com.key gitserver.stack.com.crt /etc/gitlab/ssl/```
+```sudo chmod 600 /etc/gitlab/ssl/gitserver.stack.*```
 
-7. Реконфигирируем Gitlab
+8. Реконфигирируем Gitlab
 ```gitlab-ctl reconfigure```
 
-8. Проверим валидность сертификата
+9. Проверим валидность сертификата
 openssl s_client -connect gitserver.stack.com:443
 
 
