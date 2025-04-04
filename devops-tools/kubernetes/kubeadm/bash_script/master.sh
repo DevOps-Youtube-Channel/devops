@@ -24,11 +24,16 @@ sudo apt install systemd-timesyncd
 sudo timedatectl set-ntp true
 sudo timedatectl status
 
+3) Установим hostname
+sudo hostnamectl set-hostname master-node
+nano /etc/hosts
+192.168.95.24 master-node
+
 3) Отключим swap
 sudo swapoff -a
 sudo sed -i.bak -r 's/(.+ swap .+)/#\1/' /etc/fstab
 free -m
- cat /etc/fstab | grep swap
+cat /etc/fstab | grep swap
 
 4) Подготовым ядро
 sudo vim /etc/modules-load.d/k8s.conf
