@@ -42,7 +42,7 @@
 ```gitlab-ctl reconfigure```
 
 8. Проверим валидность сертификата
-openssl s_client -connect gitserver.stack.com:443
+```openssl s_client -connect gitserver.stack.com:443```
 
 
 
