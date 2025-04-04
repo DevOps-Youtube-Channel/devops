@@ -91,7 +91,7 @@ mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+kubectl apply -f https://github.com/cilium/cilium/releases/download/v1.13.0/cilium.yaml
 kubectl taint nodes --all node-role.kubernetes.io/control-plane- || true
 
 echo ""
