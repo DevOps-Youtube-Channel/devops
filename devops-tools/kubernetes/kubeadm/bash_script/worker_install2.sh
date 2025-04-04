@@ -2,7 +2,7 @@
 
 set -e
 
-echo "[1/6] Обновление пакетов и установка зависимостей..."
+echo "[1/8] Обновление пакетов и установка зависимостей..."
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl gnupg lsb-release apt-transport-https
 
@@ -20,14 +20,14 @@ sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sudo systemctl enable docker && sudo systemctl start docker
 
-echo "[2/6] Установка Kubernetes компонентов..."
+echo "[2/8] Установка Kubernetes компонентов..."
 sudo curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 
-echo "[3/6] Отключение swap и настройка sysctl..."
+echo "[3/8] Отключение swap и настройка sysctl..."
 sudo swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
@@ -49,7 +49,11 @@ EOF
 
 sudo sysctl --system
 
-echo "[4/6] Настройка cgroup-driver и kubelet..."
+echo "[4/8] Настройка hostname и hosts..."
+sudo hostnamectl set-hostname master-node
+echo "192.168.95.24 worker-node" | sudo tee -a /etc/hosts
+
+echo "[5/8] Настройка cgroup-driver и kubelet..."
 cat <<EOF | sudo tee /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 [Service]
 Environment="KUBELET_EXTRA_ARGS=--fail-swap-on=false --cgroup-driver=systemd"
@@ -59,12 +63,12 @@ sudo systemctl daemon-reexec
 sudo systemctl daemon-reload
 sudo systemctl restart kubelet
 
-echo "[5/6] Отключение плагина cri в containerd..."
+echo "[6/8] Отключение плагина cri в containerd..."
 # Отключаем plugin cri в конфигурации containerd
 sudo sed -i 's/^#\s*\(disabled_plugins\s*=\s*\[\"cri\"\]\)/\1/' /etc/containerd/config.toml
 sudo systemctl restart containerd
 
-echo "[6/6] Присоединение к кластеру (используя kubeadm join)..."
+echo "[7/8] Присоединение к кластеру (используя kubeadm join)..."
 # Получаем команду для присоединения к кластеру из master-ноды
 echo "Получите команду для присоединения к кластеру с master-ноды, выполнив следующую команду на master-ноде:"
 echo "kubeadm token create --print-join-command"
@@ -73,7 +77,7 @@ echo "После получения токена и хеша, выполните
 # Пример команды:
 # sudo kubeadm join --token <token> <master-ip>:6443 --discovery-token-ca-cert-hash sha256:<hash>
 
-echo "[7/7] Проверка состояния Worker-ноды..."
+echo "[8/8] Проверка состояния Worker-ноды..."
 # Получаем информацию о статусе kubelet
 sudo systemctl status kubelet
 
