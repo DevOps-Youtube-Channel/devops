@@ -29,13 +29,13 @@ sudo hostnamectl set-hostname master-node
 nano /etc/hosts
 192.168.95.24 master-node
 
-3) Отключим swap
+4) Отключим swap
 sudo swapoff -a
 sudo sed -i.bak -r 's/(.+ swap .+)/#\1/' /etc/fstab
 free -m
 cat /etc/fstab | grep swap
 
-4) Подготовым ядро
+5) Подготовым ядро
 sudo vim /etc/modules-load.d/k8s.conf
 overlay
 br_netfilter
@@ -43,7 +43,7 @@ br_netfilter
 sudo modprobe overlay modprobe br_netfilter
 lsmod | grep "overlay\|br_netfilter"
 
-5) Сетевые настройки
+6) Сетевые настройки
 sudo vim /etc/sysctl.d/k8s.conf
 
 net.bridge.bridge-nf-call-ip6tables = 1
@@ -52,10 +52,10 @@ net.ipv4.ip_forward = 1
 
 sudo sysctl --system
 
-6) Установим софты
+7) Установим софты
 sudo apt-get install -y apt-transport-https ca-certificates curl gpg gnupg2 software-properties-common
 
-7) Установим тулы Кубернетес
+8) Установим тулы Кубернетес
 sudo mkdir -m 755 /etc/apt/keyrings
 sudo apt-get update
 sudo apt-get install -y apt-transport-https ca-certificates curl gpg
@@ -66,15 +66,14 @@ sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 lsmod | grep "overlay\|br_netfilter"
 
-8) Установим Docker
+9) Установим Docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 echo \
   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable"
-sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-9) Установим Containerd
+10) Установим Containerd
 sudo apt update
 sudo apt install -y containerd.io
 sudo mkdir -p /etc/containerd
@@ -90,7 +89,7 @@ sudo systemctl restart containerd
 sudo systemctl enable containerd
 systemctl status containerd
 
-10) Установим доп функции crictl
+11) Установим доп функции crictl
  sudo crictl ps
  sudo apt install cri-tools
  sudo vim /etc/crictl.yaml
@@ -103,29 +102,32 @@ pull-image-on-create: false
 
 sudo crictl ps
 
-11) Включим kubelet 
+12) Включим kubelet 
 sudo systemctl enable kubelet
 
-12) Инициализируем мастер нод
+13) Инициализируем мастер нод
 sudo crictl images
 sudo kubeadm config images pull --cri-socket unix:///var/run/containerd/containerd.sock
 sudo crictl images
 
-13) Инициализируем мастер нод
+14) Инициализируем мастер нод
 sudo systemctl restart containerd
 sudo systemctl restart kubelet
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --cri-socket unix:///var/run/containerd/containerd.sock --v=5
 
-14) Создадим кубконфиг
+15) Создадим кубконфиг
  mkdir -p $HOME/.kube
  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
  sudo chown $(id -u):$(id -g) $HOME/.kube/config
  export KUBECONFIG=/etc/kubernetes/admin.conf
  kubectl get nodes
 
- 15) Печатать токен у мастера
+ 16) Установим Cilium
+ kubectl apply -f https://github.com/cilium/cilium/releases/download/v1.13.0/cilium.yaml
+
+ 17) Печатать токен у мастера
  kubeadm token create --print-join-command
  kubeadm join 192.168.8.120:6443 — token dg67p7.wvt7n5zxx9pxbmaz — discovery-token-ca-cert-hash sha256:36f9eb64ef8a6d45254b8994108b0e3a56e856bcb3b07d46cd83554db4114490
 
- 16) Посмотреть список нодов
+ 18) Посмотреть список нодов
  kubectl get nodes -o wide
