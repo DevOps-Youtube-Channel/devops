@@ -100,6 +100,8 @@ sudo kubeadm config images pull --cri-socket unix:///var/run/containerd/containe
 sudo crictl images
 
 13) Инициализируем мастер нод
+sudo systemctl restart containerd
+sudo systemctl restart kubelet
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --cri-socket unix:///var/run/containerd/containerd.sock --v=5
 
 14) Создадим кубконфиг
