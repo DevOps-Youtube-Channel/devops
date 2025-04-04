@@ -71,6 +71,7 @@ sudo hostnamectl set-hostname master-node
 echo "192.168.95.24 master-node" | sudo tee -a /etc/hosts
 
 echo "[7/9] Настройка Kubelet..."
+sudo install -m 0755 -d /etc/systemd/system/kubelet.service.d/
 cat <<EOF | sudo tee /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 [Service]
 Environment="KUBELET_EXTRA_ARGS=--fail-swap-on=false --cgroup-driver=systemd"
