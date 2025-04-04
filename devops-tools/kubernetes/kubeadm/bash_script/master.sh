@@ -36,7 +36,7 @@ free -m
 cat /etc/fstab | grep swap
 
 5) Подготовым ядро
-sudo vim /etc/modules-load.d/k8s.conf
+sudo nano /etc/modules-load.d/k8s.conf
 overlay
 br_netfilter
 
@@ -44,7 +44,7 @@ sudo modprobe overlay modprobe br_netfilter
 lsmod | grep "overlay\|br_netfilter"
 
 6) Сетевые настройки
-sudo vim /etc/sysctl.d/k8s.conf
+sudo nano /etc/sysctl.d/k8s.conf
 
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
