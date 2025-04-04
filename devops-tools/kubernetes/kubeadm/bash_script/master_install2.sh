@@ -81,7 +81,10 @@ sudo systemctl daemon-reload
 sudo systemctl restart kubelet
 
 echo "[8/9] Инициализация master-ноды..."
-sudo kubeadm init --control-plane-endpoint=master-node --upload-certs --pod-network-cidr=10.244.0.0/16
+sudo sed -i 's/^#\s*\(disabled_plugins\s*=\s*\[\"cri\"\]\)/\1/' /etc/containerd/config.toml
+sudo systemctl restart containerd
+sudo systemctl status containerd
+sudo kubeadm init --control-plane-endpoint=master-node --upload-certs --pod-network-cidr=10.244.0.0/16 --cri-socket=/run/containerd/containerd.sock
 
 echo "[9/9] Настройка kubectl и установка Flannel..."
 mkdir -p $HOME/.kube
