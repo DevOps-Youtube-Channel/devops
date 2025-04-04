@@ -30,17 +30,18 @@ DNS.2 = gitrunner.stack.com
    external_url 'https://gitserver.stack.com'
    ```
 
-7. Скопируем сертификаты
-```sudo mkdir -p /etc/gitlab/ssl
+6. Скопируем сертификаты
+   ```
+   sudo mkdir -p /etc/gitlab/ssl
    sudo chmod 755 /etc/gitlab/ssl
    sudo cp gitserver.stack.com.key gitserver.stack.com.crt /etc/gitlab/ssl/
    sudo chmod 600 /etc/gitlab/ssl/gitserver.stack.*
-```
+   ```
 
-8. Реконфигирируем Gitlab
+7. Реконфигирируем Gitlab
 ```gitlab-ctl reconfigure```
 
-9. Проверим валидность сертификата
+8. Проверим валидность сертификата
 openssl s_client -connect gitserver.stack.com:443
 
 
