@@ -74,6 +74,13 @@ sudo apt update
 sudo apt install -y containerd.io
 sudo mkdir -p /etc/containerd
 sudo containerd config default|sudo tee /etc/containerd/config.toml
+
+
+runtime_type = "io.containerd.runc.v2"  # <- note this, this line might have been missed
+SystemdCgroup = true # <- note this, this could be set as false in the default configuration, please make it true
+disabled_plugins = []
+
+
 sudo systemctl restart containerd
 sudo systemctl enable containerd
 systemctl status containerd
