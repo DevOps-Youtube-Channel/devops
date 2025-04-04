@@ -1,6 +1,6 @@
 1. Cгенерируем ключ для домена:   ```mkdir ssl && cd ssl/```
 
-cat sslcert.conf 
+2. Cоздадим файл для генерации сертификата: ```cat sslcert.conf```
 [req]
 distinguished_name = req_distinguished_name
 x509_extensions = v3_req
@@ -20,26 +20,20 @@ subjectAltName = @alt_names
 DNS.1 = gitserver.stack.com
 DNS.2 = gitrunner.stack.com
 
-openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout gitserver.stack.com.key -out gitserver.stack.com.crt -config sslcert.conf -extensions 'v3_req'
-Generating a RSA private key
+3. Cгенерируем сертификат: ```openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout gitserver.stack.com.key -out gitserver.stack.com.crt -config sslcert.conf -extensions 'v3_req' Generating a RSA private key```
 
+4. Редактируем файл gitlab.rb:  ```nano /etc/gitlab/gitlab.rb```
+   ```external_url 'https://gitserver.stack.com'```
 
-Step2: Edit the external_url in /etc/gitlab/gitlab.rb
+5. Скопируем сертификаты
+```sudo mkdir -p /etc/gitlab/ssl```
+```sudo chmod 755 /etc/gitlab/ssl```
+```sudo cp gitserver.stack.com.key gitserver.stack.com.crt /etc/gitlab/ssl/```
 
-sudo cat /etc/gitlab/gitlab.rb | grep external_url
-##! For more details on configuring external_url see:
-external_url 'https://gitserver.stack.com'
+6. Реконфигирируем Gitlab
+```gitlab-ctl reconfigure```
 
-Step3: Create the /etc/gitlab/ssl directory and copy your key and certificate
-sudo mkdir -p /etc/gitlab/ssl
-sudo chmod 755 /etc/gitlab/ssl
-sudo cp gitserver.stack.com.key gitserver.stack.com.crt /etc/gitlab/ssl/
-
-Step4: Reconfigure Gitlab
-sudo gitlab-ctl reconfigure
-
-
-Step5: Validate the Gitlab SSL setup
+7. Проверим валидность сертификата
 openssl s_client -connect gitserver.stack.com:443
 
 
