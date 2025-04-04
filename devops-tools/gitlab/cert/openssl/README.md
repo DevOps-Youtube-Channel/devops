@@ -2,7 +2,8 @@
 
 2. Cоздадим файл для генерации сертификата: ```cat sslcert.conf```
    
-```[req]
+```
+[req]
 distinguished_name = req_distinguished_name
 x509_extensions = v3_req
 prompt = no
@@ -19,7 +20,8 @@ extendedKeyUsage = serverAuth, clientAuth
 subjectAltName = @alt_names
 [alt_names]
 DNS.1 = gitserver.stack.com
-DNS.2 = gitrunner.stack.com```
+DNS.2 = gitrunner.stack.com
+```
 
 4. Cгенерируем сертификат: ```openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout gitserver.stack.com.key -out gitserver.stack.com.crt -config sslcert.conf -extensions 'v3_req' Generating a RSA private key```
 
