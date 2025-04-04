@@ -26,9 +26,11 @@ DNS.2 = gitrunner.stack.com
 4. Cгенерируем сертификат: ```openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout gitserver.stack.com.key -out gitserver.stack.com.crt -config sslcert.conf -extensions 'v3_req' Generating a RSA private key```
 
 5. Редактируем файл gitlab.rb:  ```nano /etc/gitlab/gitlab.rb```
-   ```external_url 'https://gitserver.stack.com'```
+   ```
+   external_url 'https://gitserver.stack.com'
+   ```
 
-6. Скопируем сертификаты
+7. Скопируем сертификаты
 ```sudo mkdir -p /etc/gitlab/ssl
    sudo chmod 755 /etc/gitlab/ssl
    sudo cp gitserver.stack.com.key gitserver.stack.com.crt /etc/gitlab/ssl/
