@@ -121,3 +121,84 @@ SENTINAL
    systemctl status sentinel.service
    redis-cli -a redis-master -p 26379 info sentinel
    ```
+
+HAPROXY
+
+1) Установка HAProxy и настройка фаервола:
+   ```
+   sudo apt install haproxy -y
+   sudo ufw allow 6379
+   ```
+
+2) Создание бэкапа конфига HAProxy:
+   ```
+   sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
+   ```
+
+4) Экспорт переменных окружения:
+   ```
+   export REDIS_IP1="192.168.151.89"
+   export REDIS_IP2="192.168.134.187"
+   export REDIS_IP3="192.168.155.248"
+   export REDIS_PORT="6379"
+   export REDIS_PASS="FWDays3ecure"
+   ```
+
+5) Генерация и применение конфига HAProxy:
+   ```
+   echo "frontend ft_redis
+           bind *:6379 name redis
+           mode tcp
+           default_backend bk_redis
+
+   backend bk_redis
+           mode tcp
+           option tcp-check
+           tcp-check connect
+
+           tcp-check send AUTH \$REDIS_PASS\\r\\n
+           tcp-check expect string +OK
+           tcp-check send PING\\r\\n
+           tcp-check expect string +PONG
+           tcp-check send info\\ replication\\r\\n
+
+           tcp-check expect string role:master
+           tcp-check send QUIT\\r\\n
+           tcp-check expect string +OK
+           server Redis1 \$REDIS_IP1:\$REDIS_PORT check inter 3s
+           server Redis2 \$REDIS_IP2:\$REDIS_PORT check inter 3s
+           server Redis3 \$REDIS_IP3:\$REDIS_PORT check inter 3s
+" | sudo tee /etc/haproxy/haproxy.cfg
+   ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
