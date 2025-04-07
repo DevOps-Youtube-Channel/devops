@@ -205,7 +205,7 @@ HAPROXY
    vrrp_instance VI_1 {
        state BACKUP
        nopreempt
-       interface eth0
+       interface ens18
        virtual_router_id 51
        priority 150
        advert_int 1
