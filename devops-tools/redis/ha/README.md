@@ -112,6 +112,3 @@ SENTINAL
    systemctl status sentinel.service
    redis-cli -a redis-master -p 26379 info sentinel
    ```
-
-13) 
-   
