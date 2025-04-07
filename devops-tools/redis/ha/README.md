@@ -262,7 +262,7 @@ HAPROXY
        virtual_ipaddress {
            $VIP/17
        }
-   }' | sudo tee /etc/keepalived/keepalived.conf 
+   }" | sudo tee /etc/keepalived/keepalived.conf 
    ```
 
 9) Проверим статус Keepalived
