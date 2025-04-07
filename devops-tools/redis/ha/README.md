@@ -16,7 +16,8 @@ Client:
 CLIENT - 192.168.95.30
 ```
 
-                           ### REDIS CLUSTER 
+### REDIS CLUSTER 
+
 1) Установка и начальная настройка Redis. Команды выполняются на всех машинах REDIS-1, REDIS-2, REDIS-3:
    ```
    apt-get update
