@@ -146,7 +146,7 @@ HAPROXY
 
 4) Генерация и применение конфига HAProxy. Команды выполняются на машинах Haproxy1 и Haproxy2:
    ```
-   echo "frontend ft_redis
+        echo "frontend ft_redis
            bind *:6379 name redis
            mode tcp
            default_backend bk_redis
@@ -155,6 +155,9 @@ HAPROXY
            mode tcp
            option tcp-check
            tcp-check connect
+           timeout connect 5s
+           timeout client  30s
+           timeout server  30s
 
            tcp-check send AUTH \$REDIS_PASS\\r\\n
            tcp-check expect string +OK
@@ -170,6 +173,7 @@ HAPROXY
            server Redis3 \$REDIS_IP3:\$REDIS_PORT check inter 3s
    " | sudo tee /etc/haproxy/haproxy.cfg
    ```
+5) 
 
 5) Установка и запуск Keepalived. Команды выполняются на машинах Haproxy1 и Haproxy2:
    ```
