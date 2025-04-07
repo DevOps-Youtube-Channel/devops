@@ -12,19 +12,19 @@ REDIS CLUSTER
    sudo nano /etc/redis/redis.conf
    ```
 
-3)  Открытие порта Redis в UFW. Команды выполняются на всех машинах:
+2)  Открытие порта Redis в UFW. Команды выполняются на всех машинах:
     ```
     sudo ufw allow 6379
     ```
 
-5) Создание переменных окружения. Команды выполняются на всех машинах:
+3) Создание переменных окружения. Команды выполняются на всех машинах:
    ```
    export REDIS_MASTER_PRIVATE_IP=192.168.95.23
    export REDIS_PORT=6379
    export REDIS_PASS=redis-master
    ```
 
-7) Настройка мастера Redis. Команды выполнять на мастер ноде:
+4) Настройка мастера Redis. Команды выполнять на мастер ноде:
    ```
    sudo cp /etc/redis/redis.conf /etc/redis/redis.conf.backup && \
    sudo sed -i -E "s/(bind 127.0.0.1 ::1)//g" /etc/redis/redis.conf && \
@@ -33,7 +33,7 @@ REDIS CLUSTER
    sudo service redis-server restart
    ```
 
-9) Настройка реплики Redis. Команды выполнять на воркер нодах:
+5) Настройка реплики Redis. Команды выполнять на воркер нодах:
    ```
    sudo sed -i -E "s/(bind 127.0.0.1 ::1)//g" /etc/redis/redis.conf && \
    echo "requirepass $REDIS_PASS" | sudo tee -a /etc/redis/redis.conf && \
@@ -42,20 +42,20 @@ REDIS CLUSTER
    sudo service redis-server restart
    ```
 
-11) Проверка кластера
+6) Проверка кластера
     ```
     redis-cli -a redis-master -h 192.168.95.23 -p 6379 info replication
     redis-cli -a redis-master -p 6379 info replication
     redis-cli -a redis-master -p 26379 info sentinel
     ```
 
-13) Проверка на запись на мастере
+7) Проверка на запись на мастере
     ```
     redis-cli -a redis-master -p 6379
     set test 1
     ```
 
- 15) Переключимся на слейв и проверим   
+ 8) Переключимся на слейв и проверим   
      ```
      redis-cli -a redis-master -p 6379
      get test
@@ -69,13 +69,13 @@ SENTINAL
    systemctl status sentinel.service
    ```
 
-3) Открытие порта Redis в UFW. Команды выполняются на всех машинах:
+2) Открытие порта Redis в UFW. Команды выполняются на всех машинах:
    ```
    sudo ufw allow 6379 && \
    sudo ufw allow 26379
    ```
    
-5) Создание переменных окружения. Команды выполняются на всех машинах:
+3) Создание переменных окружения. Команды выполняются на всех машинах:
    ```
    sudo cp /etc/redis/sentinel.conf /etc/redis/sentinel.conf.backup && \
    export REDIS_MASTER_PRIVATE_IP=192.168.95.23 && \
@@ -85,7 +85,7 @@ SENTINAL
    export REDIS_SENTINEL_QUORUM=2
    ```
 
-7) Очистка и модификация дефолтных строк в конфиге. Команды выполняются на всех машинах:
+4) Очистка и модификация дефолтных строк в конфиге. Команды выполняются на всех машинах:
    ```
    sudo sed -i -E "s/(bind 127.0.0.1 ::1)//g" /etc/redis/sentinel.conf && \
    sudo sed -i -E "s/(sentinel config-epoch mymaster 0)//g" /etc/redis/sentinel.conf && \
@@ -93,7 +93,7 @@ SENTINAL
    sudo sed -i -E "s/(sentinel monitor mymaster 127.0.0.1 6379 2)//g" /etc/redis/sentinel.conf
    ```
 
-9) Добавление новой конфигурации. Команды выполняются на всех машинах:
+5) Добавление новой конфигурации. Команды выполняются на всех машинах:
    ``` 
    echo "protected-mode yes" | sudo tee -a /etc/redis/sentinel.conf && \
    echo "requirepass $REDIS_PASS" | sudo tee -a /etc/redis/sentinel.conf && \
@@ -106,7 +106,7 @@ SENTINAL
    echo "sentinel leader-epoch $REDIS_SENTINEL_NAME 0" | sudo tee -a /etc/redis/sentinel.conf
    ```
 
-11) Перезапустим службу sentinal
+6) Перезапустим службу sentinal
    ``` 
    systemctl restart sentinel.service
    systemctl status sentinel.service
