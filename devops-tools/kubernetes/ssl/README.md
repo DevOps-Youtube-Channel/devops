@@ -90,6 +90,14 @@
                  number: 80
       ```
 
+6) Проверим
+   ```
+   kubectl get ingress -n farrukh
+   kubectl get certificate -n farrukh
+   kubectl describe certificate tic-tac-toe-tls -n farrukh
+   kubectl get secret -n farrukh
+   ```
+
 
 
 
