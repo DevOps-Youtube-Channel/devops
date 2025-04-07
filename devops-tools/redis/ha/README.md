@@ -196,7 +196,7 @@ HAPROXY
    }
 
    vrrp_script check_proxy {
-       script "/usr/bin/killall -0 haproxy"
+       script \"/usr/bin/killall -0 haproxy\"
        interval 1
        fall 4
        rise 2
@@ -229,24 +229,25 @@ HAPROXY
 
 8) Настройка Keepalived на бекап сервере Haproxy2:
    ```
-   echo 'global_defs {
+   echo "global_defs {
        router_id LVS_PROXY2
    }
 
    vrrp_script check_proxy {
-    script "/usr/bin/killall -0 haproxy"
-    interval 1
-    fall 4
-    rise 2
+       script \"/usr/bin/killall -0 haproxy\"
+       interval 1
+       fall 4
+       rise 2
    }
 
    vrrp_instance VI_1 {
        state BACKUP
        nopreempt
-       interface eth0
+       interface ens18
        virtual_router_id 51
        priority 149
        advert_int 1
+   
        track_script {
            check_proxy
        }
