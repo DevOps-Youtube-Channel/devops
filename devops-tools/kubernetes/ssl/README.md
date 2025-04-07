@@ -1,6 +1,6 @@
 1) Первым делом проверим установлен ли cert-manager  ```kubectl get cert-manager```
 
-2) Задеплоим приложения
+2) Задеплоим приложения tictactoe-deployment.yaml
    ```
    apiVersion: apps/v1
    kind: Deployment
