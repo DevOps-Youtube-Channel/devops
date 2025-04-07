@@ -43,23 +43,23 @@ REDIS CLUSTER
    ```
 
 11) Проверка кластера
-   ```
-   redis-cli -a redis-master -h 192.168.95.23 -p 6379 info replication
-   redis-cli -a redis-master -p 6379 info replication
-   redis-cli -a redis-master -p 26379 info sentinel
-   ```
+    ```
+    redis-cli -a redis-master -h 192.168.95.23 -p 6379 info replication
+    redis-cli -a redis-master -p 6379 info replication
+    redis-cli -a redis-master -p 26379 info sentinel
+    ```
 
 13) Проверка на запись на мастере
-   ```
-   redis-cli -a redis-master -p 6379
-   set test 1
-   ```
+    ```
+    redis-cli -a redis-master -p 6379
+    set test 1
+    ```
 
  15) Переключимся на слейв и проверим   
-   ```
-   redis-cli -a redis-master -p 6379
-   get test
-   ```
+     ```
+     redis-cli -a redis-master -p 6379
+     get test
+     ```
 
 SENTINAL
 
