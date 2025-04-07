@@ -26,3 +26,19 @@
          - image: m2yy5eu3z/tic-tac-toe:arm64
            name: tic-tac-toe
    ```
+3) Создадим service к deployment
+   ```
+   apiVersion: v1
+   kind: Service
+   metadata:
+     name: tictactoe-ssl
+     namespace: farrukh
+   spec:
+     type: ClusterIP
+     selector:
+       app: tictactoe-ssl
+   ports:
+     - port: 80
+       targetPort: 3000
+       protocol: TCP
+    ```
