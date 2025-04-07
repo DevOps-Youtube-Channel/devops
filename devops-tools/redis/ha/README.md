@@ -144,7 +144,7 @@ HAPROXY
    export REDIS_PASS="redis-master"
    ```
 
-5) Генерация и применение конфига HAProxy:
+5) Генерация и применение конфига HAProxy. Команды выполняются на машинах Haproxy1 и Haproxy2:
    ```
    echo "frontend ft_redis
            bind *:6379 name redis
@@ -171,6 +171,62 @@ HAPROXY
    " | sudo tee /etc/haproxy/haproxy.cfg
    ```
 
+6) Установка и запуск Keepalived. Команды выполняются на машинах Haproxy1 и Haproxy2:
+   ```
+   sudo apt install keepalived -y
+   sudo service keepalived restart
+   sudo service keepalived status
+   ```
+
+7) Экспорт переменных окружения:
+   ```
+   export HAPROXY_IP1="192.168.95.26"
+   export HAPROXY_IP2="192.168.95.27"
+   export VIP="192.168.95.28"
+   export KEEPALIVED_PASS="redis-master"
+   ```
+
+8) Настройка Keepalived на основном сервере Haproxy1:
+   echo "global_defs {
+       router_id LVS_PROXY1
+   }
+
+   vrrp_script check_proxy {
+       script "/usr/bin/killall -0 haproxy"
+       interval 1
+       fall 4
+       rise 2
+   }
+
+   vrrp_instance VI_1 {
+       state BACKUP
+       nopreempt
+       interface eth0
+       virtual_router_id 51
+       priority 150
+       advert_int 1
+       track_script {
+           check_proxy
+    }
+    authentication {
+        auth_type PASS
+        auth_pass $KEEPALIVED_PASS
+    }
+    unicast_src_ip $HAPROXY_IP1
+    unicast_peer {
+        $HAPROXY_IP2
+    }
+    virtual_ipaddress {
+        $VIP/17
+    }
+}" | sudo tee /etc/keepalived/keepalived.conf
+
+9) Проверим статус Keepalived
+   ```
+   sudo service keepalived restart
+   sudo service keepalived status
+   ```
+   
 
 
 
