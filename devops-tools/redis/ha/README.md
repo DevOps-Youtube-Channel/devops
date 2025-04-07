@@ -147,31 +147,28 @@ HAPROXY
 4) Генерация и применение конфига HAProxy. Команды выполняются на машинах Haproxy1 и Haproxy2:
    ```
         echo "frontend ft_redis
-           bind *:6379 name redis
-           mode tcp
-           default_backend bk_redis
+        bind *:6379 name redis
+        mode tcp
+        default_backend bk_redis
 
-   backend bk_redis
-           mode tcp
-           option tcp-check
-           tcp-check connect
-           timeout connect 5s
-           timeout client  30s
-           timeout server  30s
+backend bk_redis
+        mode tcp
+        option tcp-check
+        tcp-check connect
 
-           tcp-check send AUTH \$REDIS_PASS\\r\\n
-           tcp-check expect string +OK
-           tcp-check send PING\\r\\n
-           tcp-check expect string +PONG
-           tcp-check send info\\ replication\\r\\n
+        tcp-check send AUTH\ $REDIS_PASS\\\r\\\n
+        tcp-check expect string +OK
+        tcp-check send PING\\\r\\\n
+        tcp-check expect string +PONG
+        tcp-check send info\ replication\\\r\\\n
 
-           tcp-check expect string role:master
-           tcp-check send QUIT\\r\\n
-           tcp-check expect string +OK
-           server Redis1 \$REDIS_IP1:\$REDIS_PORT check inter 3s
-           server Redis2 \$REDIS_IP2:\$REDIS_PORT check inter 3s
-           server Redis3 \$REDIS_IP3:\$REDIS_PORT check inter 3s
-   " | sudo tee /etc/haproxy/haproxy.cfg
+        tcp-check expect string role:master
+        tcp-check send QUIT\\\r\\\n
+        tcp-check expect string +OK
+        server Redis1 $REDIS_IP1:$REDIS_PORT check inter 3s
+        server Redis2 $REDIS_IP2:$REDIS_PORT check inter 3s
+        server Redis3 $REDIS_IP3:$REDIS_PORT check inter 3s
+" | sudo tee -a /etc/haproxy/haproxy.cfg
    ```
 5) 
 
