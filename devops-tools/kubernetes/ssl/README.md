@@ -62,7 +62,33 @@
 
    ```
 
-
+5) Создадим ingress с ssl сертификатом
+   ```
+   apiVersion: networking.k8s.io/v1
+   kind: Ingress
+   metadata:
+     name: tic-tac-toe-ingress
+     namespace: farrukh
+     annotations:
+       cert-manager.io/cluster-issuer: "letsencrypt-farrukh-prod"
+   spec:
+     ingressClassName: nginx
+     tls:
+     - hosts:
+       - tictac-f-sadatov.sts404.uz
+       secretName: tic-tac-toe-tls
+     rules:
+     - host: tictac-f-sadatov.sts404.uz
+       http:
+         paths:
+         - path: /
+           pathType: Prefix
+           backend:
+             service:
+               name: tictactoe-ssl
+               port:
+                 number: 80
+      ```
 
 
 
