@@ -44,23 +44,23 @@
     ```
 
 4) Установим ClusterIssuer для Let's Encrypt
-```
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt-farrukh-prod
-spec:
-  acme:
-    email: admin@gmail.com  # Укажи свою почту
-    server: https://acme-v02.api.letsencrypt.org/directory
-    privateKeySecretRef:
-      name: letsencrypt-farrukh-prod
-    solvers:
-    - http01:
-        ingress:
-          class: nginx
+   ```
+   apiVersion: cert-manager.io/v1
+   kind: ClusterIssuer
+   metadata:
+     name: letsencrypt-farrukh-prod
+   spec:
+     acme:
+       email: admin@gmail.com  # Укажи свою почту
+       server: https://acme-v02.api.letsencrypt.org/directory
+       privateKeySecretRef:
+         name: letsencrypt-farrukh-prod
+       solvers:
+       - http01:
+           ingress:
+             class: nginx
 
-```
+   ```
 
 
 
