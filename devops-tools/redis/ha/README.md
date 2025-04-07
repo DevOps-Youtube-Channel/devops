@@ -179,7 +179,13 @@ CLIENT - 192.168.95.30
    " | sudo tee -a /etc/haproxy/haproxy.cfg
    ```
 
-5) Установка и запуск Keepalived. Команды выполняются на машинах Haproxy1 и Haproxy2:
+5) Перезапускаем службы haproxy на машинах Haproxy1 и Haproxy2:
+   ```
+   systemctl restart haproxy.service
+   systemctl status haproxy.service
+   ```
+
+6) Установка и запуск Keepalived. Команды выполняются на машинах Haproxy1 и Haproxy2:
    ```
    apt-get update
    sudo apt install keepalived -y
@@ -187,7 +193,7 @@ CLIENT - 192.168.95.30
    sudo service keepalived status
    ```
 
-6) Экспорт переменных окружения. Команды выполняются на машинах Haproxy1 и Haproxy2 :
+7) Экспорт переменных окружения. Команды выполняются на машинах Haproxy1 и Haproxy2 :
    ```
    export HAPROXY_IP1="192.168.95.26"
    export HAPROXY_IP2="192.168.95.27"
@@ -195,7 +201,7 @@ CLIENT - 192.168.95.30
    export KEEPALIVED_PASS="redis-master"
    ```
 
-7) Настройка Keepalived на основном сервере Haproxy1:
+8) Настройка Keepalived на основном сервере Haproxy1:
    ```
    echo "global_defs {
        router_id LVS_PROXY1
@@ -233,7 +239,7 @@ CLIENT - 192.168.95.30
    }" | sudo tee /etc/keepalived/keepalived.conf
    ```
 
-8) Настройка Keepalived на бекап сервере Haproxy2:
+9) Настройка Keepalived на бекап сервере Haproxy2:
    ```
    echo "global_defs {
        router_id LVS_PROXY2
@@ -271,7 +277,7 @@ CLIENT - 192.168.95.30
    }" | sudo tee /etc/keepalived/keepalived.conf 
    ```
 
-9) Проверим статус Keepalived
+10) Проверим статус Keepalived
    ```
    systemctl restart keepalived.service
    systemctl status keepalived.service
