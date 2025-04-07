@@ -187,6 +187,7 @@ HAPROXY
    ```
 
 8) Настройка Keepalived на основном сервере Haproxy1:
+   ```
    echo "global_defs {
        router_id LVS_PROXY1
    }
@@ -219,9 +220,10 @@ HAPROXY
     virtual_ipaddress {
         $VIP/17
     }
-}" | sudo tee /etc/keepalived/keepalived.conf
+   }" | sudo tee /etc/keepalived/keepalived.conf
+   ```
 
-9) Проверим статус Keepalived
+10) Проверим статус Keepalived
    ```
    sudo service keepalived restart
    sudo service keepalived status
