@@ -15,6 +15,7 @@ Client:
 REDIS CLUSTER 
 1) Установка и начальная настройка Redis. Команды выполняются на всех машинах:
    ```
+   apt-get update
    apt install net-tools -y
    sudo apt install redis-server -y
    systemctl status redis.service
@@ -126,6 +127,7 @@ HAPROXY
 
 1) Установка HAProxy и настройка фаервола:
    ```
+   apt-get update
    sudo apt install haproxy -y
    sudo ufw allow 6379
    ```
@@ -170,10 +172,10 @@ HAPROXY
         server Redis3 $REDIS_IP3:$REDIS_PORT check inter 3s
    " | sudo tee -a /etc/haproxy/haproxy.cfg
    ```
-5) 
 
 5) Установка и запуск Keepalived. Команды выполняются на машинах Haproxy1 и Haproxy2:
    ```
+   apt-get update
    sudo apt install keepalived -y
    sudo service keepalived restart
    sudo service keepalived status
