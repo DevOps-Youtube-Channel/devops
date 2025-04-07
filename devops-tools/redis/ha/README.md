@@ -168,8 +168,7 @@ HAPROXY
            server Redis1 \$REDIS_IP1:\$REDIS_PORT check inter 3s
            server Redis2 \$REDIS_IP2:\$REDIS_PORT check inter 3s
            server Redis3 \$REDIS_IP3:\$REDIS_PORT check inter 3s
-" | sudo tee /etc/haproxy/haproxy.cfg
-   
+   " | sudo tee /etc/haproxy/haproxy.cfg
    ```
 
 
