@@ -137,11 +137,11 @@ HAPROXY
 
 4) Экспорт переменных окружения:
    ```
-   export REDIS_IP1="192.168.151.89"
-   export REDIS_IP2="192.168.134.187"
-   export REDIS_IP3="192.168.155.248"
+   export REDIS_IP1="192.168.95.23"
+   export REDIS_IP2="192.168.95.24"
+   export REDIS_IP3="192.168.95.25"
    export REDIS_PORT="6379"
-   export REDIS_PASS="FWDays3ecure"
+   export REDIS_PASS="redis-master"
    ```
 
 5) Генерация и применение конфига HAProxy:
@@ -169,6 +169,7 @@ HAPROXY
            server Redis2 \$REDIS_IP2:\$REDIS_PORT check inter 3s
            server Redis3 \$REDIS_IP3:\$REDIS_PORT check inter 3s
 " | sudo tee /etc/haproxy/haproxy.cfg
+   
    ```
 
 
