@@ -1,11 +1,11 @@
 Необходимые вир машины
 Redis-Server/Sentinal:
 ```
-192.168.95.23, 192.168.95.24, 192.168.95.25
+REDIS-1 - 192.168.95.23, REDIS-2 - 192.168.95.24, REDIS-3 - 192.168.95.25
 ```
 Haproxy: 
 ```
-192.168.95.26, 192.168.95.27
+HAPROXY-1 - 192.168.95.26, HAPROXY-2 - 192.168.95.27
 ```
 KEEPALIVED_VIP_IP:
 ```
@@ -13,47 +13,46 @@ KEEPALIVED_VIP_IP:
 ```
 Client: 
 ```
-192.168.95.30
+CLIENT - 192.168.95.30
 ```
 
 REDIS CLUSTER 
-1) Установка и начальная настройка Redis. Команды выполняются на всех машинах:
+1) Установка и начальная настройка Redis. Команды выполняются на всех машинах REDIS-1, REDIS-2, REDIS-3:
    ```
    apt-get update
    apt install net-tools -y
-   sudo apt install redis-server -y
+   apt install redis-server -y
    systemctl status redis.service
-   sudo nano /etc/redis/redis.conf
    ```
 
-2)  Открытие порта Redis в UFW. Команды выполняются на всех машинах:
+2)  Открытие порта Redis в UFW. Команды выполняются на всех машинах REDIS-1, REDIS-2, REDIS-3:
     ```
-    sudo ufw allow 6379
+    ufw allow 6379
     ```
 
-3) Создание переменных окружения. Команды выполняются на всех машинах:
+3) Создание переменных окружения. Команды выполняются на всех машинах REDIS-1, REDIS-2, REDIS-3:
    ```
    export REDIS_MASTER_PRIVATE_IP=192.168.95.23
    export REDIS_PORT=6379
    export REDIS_PASS=redis-master
    ```
 
-4) Настройка мастера Redis. Команды выполнять на мастер ноде:
+4) Настройка мастера Redis. Команды выполнять на мастер ноде REDIS-1:
    ```
-   sudo cp /etc/redis/redis.conf /etc/redis/redis.conf.backup && \
-   sudo sed -i -E "s/(bind 127.0.0.1 ::1)//g" /etc/redis/redis.conf && \
+   cp /etc/redis/redis.conf /etc/redis/redis.conf.backup && \
+   sed -i -E "s/(bind 127.0.0.1 ::1)//g" /etc/redis/redis.conf && \
    echo "requirepass $REDIS_PASS" | sudo tee -a /etc/redis/redis.conf && \
    echo "masterauth $REDIS_PASS" | sudo tee -a /etc/redis/redis.conf && \
-   sudo service redis-server restart
+   service redis-server restart
    ```
 
-5) Настройка реплики Redis. Команды выполнять на воркер нодах:
+5) Настройка реплики Redis. Команды выполнять на воркер нодах REDIS-2, REDIS-3:
    ```
-   sudo sed -i -E "s/(bind 127.0.0.1 ::1)//g" /etc/redis/redis.conf && \
+   sed -i -E "s/(bind 127.0.0.1 ::1)//g" /etc/redis/redis.conf && \
    echo "requirepass $REDIS_PASS" | sudo tee -a /etc/redis/redis.conf && \
    echo "masterauth $REDIS_PASS" | sudo tee -a /etc/redis/redis.conf && \
    echo "replicaof $REDIS_MASTER_PRIVATE_IP $REDIS_PORT" | sudo tee -a /etc/redis/redis.conf && \
-   sudo service redis-server restart
+   service redis-server restart
    ```
 
 6) Проверка кластера
@@ -77,21 +76,20 @@ REDIS CLUSTER
 
 SENTINAL
 
-1) Установка Redis Sentinel. Команды выполняются на всех машинах:
+1) Установка Redis Sentinel. Команды выполняются на всех машинах REDIS-1, REDIS-2, REDIS-3:
    ```
-   sudo apt install redis-sentinel -y
+   apt install redis-sentinel -y
    systemctl status sentinel.service
    ```
 
-2) Открытие порта Redis в UFW. Команды выполняются на всех машинах:
+2) Открытие порта Redis в UFW. Команды выполняются на всех машинах REDIS-1, REDIS-2, REDIS-3:
    ```
-   sudo ufw allow 6379 && \
-   sudo ufw allow 26379
+   ufw allow 6379 && ufw allow 26379
    ```
    
-3) Создание переменных окружения. Команды выполняются на всех машинах:
+3) Создание переменных окружения. Команды выполняются на всех машинах REDIS-1, REDIS-2, REDIS-3:
    ```
-   sudo cp /etc/redis/sentinel.conf /etc/redis/sentinel.conf.backup && \
+   cp /etc/redis/sentinel.conf /etc/redis/sentinel.conf.backup && \
    export REDIS_MASTER_PRIVATE_IP=192.168.95.23 && \
    export REDIS_PORT=6379 && \
    export REDIS_SENTINEL_NAME=mymaster && \
@@ -99,15 +97,15 @@ SENTINAL
    export REDIS_SENTINEL_QUORUM=2
    ```
 
-4) Очистка и модификация дефолтных строк в конфиге. Команды выполняются на всех машинах:
+4) Очистка и модификация дефолтных строк в конфиге. Команды выполняются на всех машинах REDIS-1, REDIS-2, REDIS-3:
    ```
-   sudo sed -i -E "s/(bind 127.0.0.1 ::1)//g" /etc/redis/sentinel.conf && \
-   sudo sed -i -E "s/(sentinel config-epoch mymaster 0)//g" /etc/redis/sentinel.conf && \
-   sudo sed -i -E "s/(sentinel leader-epoch mymaster 0)//g" /etc/redis/sentinel.conf && \
-   sudo sed -i -E "s/(sentinel monitor mymaster 127.0.0.1 6379 2)//g" /etc/redis/sentinel.conf
+   sed -i -E "s/(bind 127.0.0.1 ::1)//g" /etc/redis/sentinel.conf && \
+   sed -i -E "s/(sentinel config-epoch mymaster 0)//g" /etc/redis/sentinel.conf && \
+   sed -i -E "s/(sentinel leader-epoch mymaster 0)//g" /etc/redis/sentinel.conf && \
+   sed -i -E "s/(sentinel monitor mymaster 127.0.0.1 6379 2)//g" /etc/redis/sentinel.conf
    ```
 
-5) Добавление новой конфигурации. Команды выполняются на всех машинах:
+5) Добавление новой конфигурации. Команды выполняются на всех машинах REDIS-1, REDIS-2, REDIS-3:
    ``` 
    echo "protected-mode yes" | sudo tee -a /etc/redis/sentinel.conf && \
    echo "requirepass $REDIS_PASS" | sudo tee -a /etc/redis/sentinel.conf && \
@@ -120,7 +118,7 @@ SENTINAL
    echo "sentinel leader-epoch $REDIS_SENTINEL_NAME 0" | sudo tee -a /etc/redis/sentinel.conf
    ```
 
-6) Перезапустим службу sentinal
+6) Перезапустим службу sentinal Команды выполняются на всех машинах REDIS-1, REDIS-2, REDIS-3:
    ``` 
    systemctl restart sentinel.service
    systemctl status sentinel.service
@@ -129,16 +127,17 @@ SENTINAL
 
 HAPROXY
 
-1) Установка HAProxy и настройка фаервола:
+1) Установка HAProxy и настройка фаервола. Команды выполняются на всех машинах HAPROXY-1, HAPROXY-2:
    ```
    apt-get update
-   sudo apt install haproxy -y
-   sudo ufw allow 6379
+   apt install net-tools -y
+   apt install haproxy -y
+   ufw allow 6379
    ```
 
-2) Создание бэкапа конфига HAProxy:
+2) Создание бэкапа конфига HAProxy. Команды выполняются на всех машинах HAPROXY-1, HAPROXY-2 :
    ```
-   sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
+   cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
    ```
 
 3) Экспорт переменных окружения:
@@ -271,11 +270,10 @@ HAPROXY
 
 9) Проверим статус Keepalived
    ```
-   sudo systemctl restart keepalived.service
-   sudo systemctl status keepalived.service
+   systemctl restart keepalived.service
+   systemctl status keepalived.service
    ```
 
-10) 
    
 
 
