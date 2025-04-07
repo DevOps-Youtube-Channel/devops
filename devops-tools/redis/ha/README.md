@@ -1,3 +1,5 @@
+![Example](redis-ha.png)
+
 Необходимые вир машины
 Redis-Server/Sentinal:
 ```
