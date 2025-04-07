@@ -7,9 +7,13 @@ Haproxy:
 ```
 192.168.95.26, 192.168.95.27
 ```
-Client: 
+KEEPALIVED_VIP_IP:
 ```
 192.168.95.28
+```
+Client: 
+```
+192.168.95.30
 ```
 
 REDIS CLUSTER 
