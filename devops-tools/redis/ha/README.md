@@ -181,7 +181,7 @@ HAPROXY
    sudo service keepalived status
    ```
 
-6) Экспорт переменных окружения:
+6) Экспорт переменных окружения. Команды выполняются на машинах Haproxy1 и Haproxy2 :
    ```
    export HAPROXY_IP1="192.168.95.26"
    export HAPROXY_IP2="192.168.95.27"
@@ -209,21 +209,22 @@ HAPROXY
        virtual_router_id 51
        priority 150
        advert_int 1
+   
        track_script {
            check_proxy
-    }
-    authentication {
-        auth_type PASS
-        auth_pass $KEEPALIVED_PASS
-    }
-    unicast_src_ip $HAPROXY_IP1
-    unicast_peer {
-        $HAPROXY_IP2
-    }
-    virtual_ipaddress {
-        $VIP/17
-    }
-}" | sudo tee /etc/keepalived/keepalived.conf
+       }
+       authentication {
+           auth_type PASS
+           auth_pass $KEEPALIVED_PASS
+       }
+       unicast_src_ip $HAPROXY_IP1
+       unicast_peer {
+           $HAPROXY_IP2
+       }
+       virtual_ipaddress {
+          $VIP/17
+       }
+   }" | sudo tee /etc/keepalived/keepalived.conf
    ```
 
 8) Настройка Keepalived на бекап сервере Haproxy2:
