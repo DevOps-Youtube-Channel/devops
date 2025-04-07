@@ -16,7 +16,7 @@ Client:
 CLIENT - 192.168.95.30
 ```
 
-REDIS CLUSTER 
+### REDIS CLUSTER 
 1) Установка и начальная настройка Redis. Команды выполняются на всех машинах REDIS-1, REDIS-2, REDIS-3:
    ```
    apt-get update
@@ -74,7 +74,7 @@ REDIS CLUSTER
      get test
      ```
 
-SENTINAL
+### SENTINAL
 
 1) Установка Redis Sentinel. Команды выполняются на всех машинах REDIS-1, REDIS-2, REDIS-3:
    ```
@@ -125,7 +125,7 @@ SENTINAL
    redis-cli -a redis-master -p 26379 info sentinel
    ```
 
-HAPROXY
+### HAPROXY
 
 1) Установка HAProxy и настройка фаервола. Команды выполняются на всех машинах HAPROXY-1, HAPROXY-2:
    ```
