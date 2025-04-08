@@ -2,15 +2,16 @@
 
 1) Cоздадим папку для сертификатов:   ```mkdir /root/ssl && cd /root/ssl/```
 
-2) Cгенерируем сертификат:
-   ```
-   openssl req -x509 -newkey rsa:4096 -keyout gitlab.open.home.key -out gitlab.open.home.cert -nodes -subj '/CN=gitlab.open.home' -days 365
-   ```
-
-3) Установим запись в файле /etc/hosts у gitlab сервера
+2) Установим запись в файле /etc/hosts у gitlab сервера
    ```
    gitlab.open.home 192.168.95.18
    ```
+   
+3) Cгенерируем сертификат:
+   ```
+   openssl req -x509 -newkey rsa:4096 -keyout gitlab.open.home.key -out gitlab.open.home.cert -nodes -subj '/CN=gitlab.open.home' -days 365
+   ```
+   
 4) Редактируем файл gitlab.rb:  ```nano /etc/gitlab/gitlab.rb```
    ```
    external_url 'https://gitlab.open.home'
