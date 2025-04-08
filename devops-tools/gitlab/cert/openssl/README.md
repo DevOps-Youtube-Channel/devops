@@ -2,7 +2,7 @@
 
 1) Cоздадим папку для сертификатов:   ```mkdir /root/ssl && cd /root/ssl/```
 
-2) Установим запись в файле /etc/hosts у gitlab сервера
+2) Установим запись в файле ```nano /etc/hosts``` у gitlab сервера
    ```
    gitlab.open.home 192.168.95.18
    ```
