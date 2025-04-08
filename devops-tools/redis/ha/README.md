@@ -1,5 +1,7 @@
 ![Example](redis-ha.png)
 
+Tested on: Ubuntu 22.04 server
+
 Необходимые вир машины
 Redis-Server/Sentinal:
 ```
@@ -26,6 +28,7 @@ CLIENT - 192.168.95.30
    apt install net-tools -y
    apt install redis-server -y
    systemctl status redis.service
+   systemctl enable redis.service
    ```
 
 2)  Открытие порта Redis в UFW. Команды выполняются на всех машинах REDIS-1, REDIS-2, REDIS-3:
@@ -125,6 +128,7 @@ CLIENT - 192.168.95.30
    ``` 
    systemctl restart sentinel.service
    systemctl status sentinel.service
+   systemctl enable sentinel.service
    redis-cli -a redis-master -p 26379 info sentinel
    ```
 
@@ -182,6 +186,7 @@ CLIENT - 192.168.95.30
 5) Перезапускаем службы haproxy на машинах Haproxy1 и Haproxy2:
    ```
    systemctl restart haproxy.service
+   systemctl enable haproxy.service
    systemctl status haproxy.service
    ```
 
