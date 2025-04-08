@@ -22,7 +22,7 @@
    sudo mkdir -p /etc/gitlab/ssl
    sudo chmod 755 /etc/gitlab/ssl
    sudo rm -rf /etc/gitlab/ssl/*
-   sudo cp gitlab.open.home* /etc/gitlab/ssl/
+   sudo cp /root/ssl/gitlab.open.home* /etc/gitlab/ssl/
    sudo chmod 600 /etc/gitlab/ssl/gitlab.open.home*
    ```
 
