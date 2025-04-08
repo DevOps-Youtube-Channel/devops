@@ -189,8 +189,9 @@ CLIENT - 192.168.95.30
    ```
    apt-get update
    sudo apt install keepalived -y
-   sudo service keepalived restart
-   sudo service keepalived status
+   systemctl enable keepalived.service
+   systemctl restart keepalived.service
+   systemctl status keepalived.service
    ```
 
 7) Экспорт переменных окружения. Команды выполняются на машинах Haproxy1 и Haproxy2 :
