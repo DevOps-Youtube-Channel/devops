@@ -1,4 +1,4 @@
-Gitlab-Server
+# Gitlab-Server
 
 1) Cоздадим папку для сертификатов:   ```mkdir /root/ssl && cd /root/ssl/```
 
@@ -30,7 +30,7 @@ Gitlab-Server
    gitlab-ctl reconfigure
    ```
 
-Gitlab-Runner
+# Gitlab-Runner
 
 1) Игнорируем сертификата
    ```
