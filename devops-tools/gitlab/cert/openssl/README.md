@@ -1,53 +1,48 @@
-1. Cгенерируем ключ для домена:   ```mkdir ssl && cd ssl/```
+Gitlab-Server
 
-2. Cоздадим файл для генерации сертификата: ```cat sslcert.conf```
+1) Cоздадим папку для сертификатов:   ```mkdir /root/ssl && cd /root/ssl/```
+
+2) Cгенерируем сертификат:
    ```
-   [req]
-   distinguished_name = req_distinguished_name
-   x509_extensions = v3_req
-   prompt = no
-   [req_distinguished_name]
-   C = IN
-   ST = MH
-   L = Mumbai
-   O = stack
-   OU = devops
-   CN = gitserver.stack.com
-   [v3_req]
-   keyUsage = keyEncipherment, dataEncipherment
-   extendedKeyUsage = serverAuth, clientAuth
-   subjectAltName = @alt_names
-   [alt_names]
-   DNS.1 = gitserver.stack.com
-   DNS.2 = gitrunner.stack.com
+   openssl req -x509 -newkey rsa:4096 -keyout gitlab.open.home.key -out gitlab.open.home.cert -nodes -subj '/CN=gitlab.open.home' -days 365
    ```
 
-3. Cгенерируем сертификат:
+3) Установим запись в файле /etc/hosts у gitlab сервера
    ```
-   openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout gitserver.stack.com.key -out gitserver.stack.com.crt -config sslcert.conf -extensions 'v3_req' Generating a RSA private key
+   gitlab.open.home 192.168.95.18
+   ```
+4) Редактируем файл gitlab.rb:  ```nano /etc/gitlab/gitlab.rb```
+   ```
+   external_url 'https://gitlab.open.home'
    ```
 
-4. Редактируем файл gitlab.rb:  ```nano /etc/gitlab/gitlab.rb```
-   ```
-   external_url 'https://gitserver.stack.com'
-   ```
-
-5. Скопируем сертификаты
+5) Скопируем сертификаты
    ```
    sudo mkdir -p /etc/gitlab/ssl
    sudo chmod 755 /etc/gitlab/ssl
-   sudo cp gitserver.stack.com.key gitserver.stack.com.crt /etc/gitlab/ssl/
-   sudo chmod 600 /etc/gitlab/ssl/gitserver.stack.*
+   sudo rm -rf /etc/gitlab/ssl/*
+   sudo cp gitlab.open.home* /etc/gitlab/ssl/
+   sudo chmod 600 /etc/gitlab/ssl/gitlab.open.home*
    ```
 
-6. Реконфигирируем Gitlab
+6) Реконфигирируем Gitlab
    ```
    gitlab-ctl reconfigure
    ```
 
-7. Проверим валидность сертификата
+Gitlab-Runner
+
+1) Игнорируем сертификата
    ```
-   openssl s_client -connect gitserver.stack.com:443
+   SERVER=gitlab.rom.home
+   PORT=443
+   CERTIFICATE=/etc/gitlab-runner/certs/${SERVER}.crt
+# Create the certificates hierarchy expected by gitlab
+   mkdir -p $(dirname "$CERTIFICATE")
+# Get the certificate in PEM format and store it
+   openssl s_client -connect ${SERVER}:${PORT} -showcerts </dev/null 2>/dev/null | sed -e '/-----BEGIN/,/-----END/!d' | sudo tee "$CERTIFICATE" >/dev/null
+# Register your runner
+   gitlab-runner register --tls-ca-file="$CERTIFICATE"
    ```
 
 
