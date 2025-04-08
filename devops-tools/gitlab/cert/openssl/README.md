@@ -9,7 +9,7 @@
    
 3) Cгенерируем сертификат:
    ```
-   openssl req -x509 -newkey rsa:4096 -keyout gitlab.open.home.key -out gitlab.open.home.cert -nodes -subj '/CN=gitlab.open.home' -days 365
+   openssl req -x509 -newkey rsa:4096 -keyout gitlab.open.home.key -out gitlab.open.home.crt -nodes -subj '/CN=gitlab.open.home' -days 365
    ```
    
 4) Редактируем файл gitlab.rb:  ```nano /etc/gitlab/gitlab.rb```
