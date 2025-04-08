@@ -35,7 +35,7 @@
 
 1) Игнорируем сертификата
    ```
-   SERVER=gitlab.rom.home
+   SERVER=gitlab.open.home
    PORT=443
    CERTIFICATE=/etc/gitlab-runner/certs/${SERVER}.crt
    mkdir -p $(dirname "$CERTIFICATE")
