@@ -296,7 +296,7 @@ Insight - 192.168.95.31
 ### Redis Insight GUI
 
 1) Переходим на официальный сайт:  ```https://redis.io/insight/```
-2) Cкачиваем установщик для Windows и подключим на Redis Cluster
+2) Cкачиваем установщик для Windows и подключимся к Redis Cluster
 
 
 
