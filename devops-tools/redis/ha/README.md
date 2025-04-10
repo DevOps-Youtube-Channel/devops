@@ -289,10 +289,11 @@ CLIENT - 192.168.95.30
     systemctl status keepalived.service
     ```
 
-   
+### Redis Insight GUI
 
-
-
+1) Переходим на официальный сайт:  ```https://redis.io/insight/```
+2) Cкачиваем deb пакет
+3) 
 
 
 
