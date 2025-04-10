@@ -19,6 +19,10 @@ Client:
 ```
 CLIENT - 192.168.95.30
 ```
+Redis Insight GUI:
+```
+Insight - 192.168.95.31
+```
 
 ### REDIS CLUSTER 
 
@@ -292,8 +296,8 @@ CLIENT - 192.168.95.30
 ### Redis Insight GUI
 
 1) Переходим на официальный сайт:  ```https://redis.io/insight/```
-2) Cкачиваем deb пакет
-3) 
+2) Cкачиваем установщик для Windows и подключим на Redis Cluster
+
 
 
 
