@@ -284,10 +284,10 @@ CLIENT - 192.168.95.30
    ```
 
 10) Проверим статус Keepalived
-   ```
-   systemctl restart keepalived.service
-   systemctl status keepalived.service
-   ```
+    ```
+    systemctl restart keepalived.service
+    systemctl status keepalived.service
+    ```
 
    
 
