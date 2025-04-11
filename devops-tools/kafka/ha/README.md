@@ -13,4 +13,5 @@
    10.20.20.53 ha-zoo3
    ```
 
-3) Cкачиваем Zookeper и установим на все узлы: ```cd /opt sudo wget https://downloads.apache.org/zookeeper/zookeeper-3.6.2/apache-zookeeper-3.6.2-bin.tar.gz```
+3) Cкачиваем Zookeper и установим на все узлы:
+   ```cd /opt sudo wget https://downloads.apache.org/zookeeper/zookeeper-3.6.2/apache-zookeeper-3.6.2-bin.tar.gz```
