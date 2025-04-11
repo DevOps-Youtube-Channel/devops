@@ -39,14 +39,17 @@
 
 6) Настроим id на ha-zoo1:
    ```
+   mkdir -p /data/zookeeper/
    echo 1 > /data/zookeeper/myid
    ```
 7) Настроим id на ha-zoo2:
    ```
+   mkdir -p /data/zookeeper/
    echo 2 > /data/zookeeper/myid
    ```
 8) Настроим id на ha-zoo3:
     ```
+    mkdir -p /data/zookeeper/
     echo 3 > /data/zookeeper/myid
     ```
 
