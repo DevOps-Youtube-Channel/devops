@@ -20,8 +20,8 @@
 
 4) Разархивируем архив на всех узлах:
    ```
-   sudo tar -xvf apache-zookeeper-3.6.2-bin.tar.gz
-   sudo mv apache-zookeeper-3.6.2 zookeeper
+   sudo tar -xvf apache-zookeeper-3.7.2-bin.tar.gz
+   sudo mv apache-zookeeper-3.7.2 zookeeper
    cd zookeeper
    ```
 
