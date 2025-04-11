@@ -55,7 +55,7 @@
 
 9) Запустим zookeper на всех узлах:
     ```
-   java -cp lib/zookeeper-3.6.2.jar:lib/*:conf org.apache.zookeeper.server.quorum.QuorumPeerMain conf/zoo.cfg
+   java -cp lib/zookeeper-3.7.2.jar:lib/*:conf org.apache.zookeeper.server.quorum.QuorumPeerMain conf/zoo.cfg
     ```
 
 10) Проверим zookeper на ha-zoo3:
