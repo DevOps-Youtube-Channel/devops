@@ -15,7 +15,7 @@
 
 3) Cкачиваем Zookeper и установим на все узлы:
    ```
-   cd /opt sudo && wget https://downloads.apache.org/zookeeper/zookeeper-3.6.2/apache-zookeeper-3.6.2-bin.tar.gz
+   cd /opt && sudo wget https://downloads.apache.org/zookeeper/zookeeper-3.6.2/apache-zookeeper-3.6.2-bin.tar.gz
    ```
 
 4) Разархивируем архив на всех узлах:
