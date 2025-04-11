@@ -25,7 +25,7 @@
    cd zookeeper
    ```
 
-5) Настроим мулти-zookeper на всех узлах: ```sudo vi conf/zoo.cfg```
+5) Настроим мулти-zookeper на всех узлах: ```sudo nano conf/zoo.cfg```
    ```
    tickTime=2000
    dataDir=/data/zookeeper
