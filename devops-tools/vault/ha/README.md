@@ -164,7 +164,7 @@ VIP_IP_ADDRESS 192.168.95.29
     }
     ```
 
-14) Отредактируем конфигурационный файл vault для первой ноды vault-a.open.lab: ```nano /etc/vault.d/vault.hcl```
+14) Отредактируем конфигурационный файл vault для первой ноды vault-b.open.lab: ```nano /etc/vault.d/vault.hcl```
     ```
     mv /etc/vault.d/vault.hcl /etc/vault.d/vault.hcl_original
     ```
@@ -185,24 +185,24 @@ VIP_IP_ADDRESS 192.168.95.29
 
     storage "raft" {
       path    = "/opt/vault/data"
-      node_id = "vault-b.vmik.lab"
+      node_id = "vault-b.open.lab"
 
       retry_join {
-        leader_tls_servername   = "vault-a.vmik.lab"
+        leader_tls_servername   = "vault-a.open.lab"
         leader_api_addr         = "https://192.168.95.24:8200"
         leader_ca_cert_file     = "/opt/vault/tls/vault-ca-cert.pem"
         leader_client_cert_file = "/opt/vault/tls/vault-b-cert.pem"
         leader_client_key_file  = "/opt/vault/tls/vault-b-key.pem"
       }
       retry_join {
-        leader_tls_servername   = "vault-b.vmik.lab"
+        leader_tls_servername   = "vault-b.open.lab"
         leader_api_addr         = "https://192.168.95.25:8200"
         leader_ca_cert_file     = "/opt/vault/tls/vault-ca-cert.pem"
         leader_client_cert_file = "/opt/vault/tls/vault-b-cert.pem"
         leader_client_key_file  = "/opt/vault/tls/vault-b-key.pem"
       }
       retry_join {
-        leader_tls_servername   = "vault-c.vmik.lab"
+        leader_tls_servername   = "vault-c.open.lab"
         leader_api_addr         = "https://192.168.95.26:8200"
         leader_ca_cert_file     = "/opt/vault/tls/vault-ca-cert.pem"
         leader_client_cert_file = "/opt/vault/tls/vault-b-cert.pem"
@@ -212,8 +212,83 @@ VIP_IP_ADDRESS 192.168.95.29
 
     ```
     
+15) Отредактируем конфигурационный файл vault для первой ноды vault-c.open.lab: ```nano /etc/vault.d/vault.hcl```
+    ```
+    mv /etc/vault.d/vault.hcl /etc/vault.d/vault.hcl_original
+    ```
+    ```
+    cluster_addr  = "https://192.168.95.26:8201"
+    api_addr      = "https://192.168.95.26:8200"
+    disable_mlock = true
 
+    ui = true
 
+    listener "tcp" {
+      address            = "0.0.0.0:8200"
+      tls_ca_cert_file   = "/opt/vault/tls/vault-ca-cert.pem"
+      tls_cert_file      = "/opt/vault/tls/vault-c-cert.pem"
+      tls_key_file       = "/opt/vault/tls/vault-c-key.pem"
+
+    }
+
+    storage "raft" {
+      path    = "/opt/vault/data"
+      node_id = "vault-c.open.lab"
+
+      retry_join {
+        leader_tls_servername   = "vault-a.open.lab"
+        leader_api_addr         = "https://192.168.95.24:8200"
+        leader_ca_cert_file     = "/opt/vault/tls/vault-ca-cert.pem"
+        leader_client_cert_file = "/opt/vault/tls/vault-c-cert.pem"
+        leader_client_key_file  = "/opt/vault/tls/vault-c-key.pem"
+      }
+      retry_join {
+        leader_tls_servername   = "vault-b.open.lab"
+        leader_api_addr         = "https://192.168.95.25:8200"
+        leader_ca_cert_file     = "/opt/vault/tls/vault-ca-cert.pem"
+        leader_client_cert_file = "/opt/vault/tls/vault-c-cert.pem"
+        leader_client_key_file  = "/opt/vault/tls/vault-c-key.pem"
+      }
+      retry_join {
+        leader_tls_servername   = "vault-c.open.lab"
+        leader_api_addr         = "https://192.168.95.26:8200"
+        leader_ca_cert_file     = "/opt/vault/tls/vault-ca-cert.pem"
+        leader_client_cert_file = "/opt/vault/tls/vault-c-cert.pem"
+        leader_client_key_file  = "/opt/vault/tls/vault-c-key.pem"
+      }
+    }
+
+    ```
+
+16) Интересные параметры:
+    api_addr – адрес и порт, на котором будет доступен API сервер;
+    cluster_addr – адрес и порт по которому будут взаимодействовать кластерные сервисы;
+    disable_mlock – рекомендуемый параметр при использовании Integrated Storage;
+    ui – включение доступа к веб-интерфейсу Vault;
+    в секции listener указываются сертификаты, которые будут использованы при сетевом взаимодействии. У каждой ноды они свои, за исключением CA, данный сертификат одинаковый для всех.
+
+    Секцию storage стоит так же рассмотреть:
+    path = “/opt/vault/data” – директория, где будут храниться данные Vault;
+    node_id = “vault-a.vmik.lab” – id, с которым нода будет участвовать в кластере. У каждой ноды он должен отличаться;
+    Далее идут несколько секций retry_join, с перечислением всех узлов кластера. Поскольку доподлинно неизвестно, какой из узлов будет активным при запуске служб Vault, будет произведена попытка подключения к каждому из узлов.
+    Здесь же указываются адреса узлов – leader_api_addr, leader_tls_servername – хостнейм сервера, который должен совпадать с тем, что прописано в сертификате данного сервера. Так же указываются сертификаты, которыми клиент будет 
+    подключаться к лидеру (у каждой из нод свои сертификаты, которые мы создавали ранее).
+    Обратите внимание как меняются поля с адресами, сертификатами, а также node_id. Это важно.
+
+18) Теперь, когда конфигурационные файлы готовы, возвращаемся на первый узел vault-a.open.lab. Добавляем Vault в автозагрузку и автоматически его запускаем:
+    ```
+    systemctl enable --now vault.service
+    systemctl status vault.service
+    ```
+
+19) Проверим статус Vault, предварительно отменив проверку сертификатов, выставив значение специальной переменной на первой ноде vault-a.open.lab:
+    ```
+    export VAULT_SKIP_VERIFY="true"
+    vault status
+    ```
+
+    Как можно заметить на текущий момент Vault не инициализирован (Initialized false), а также запечатан (Sealed true).
+    Примечание: добавив наш CA файл, сгенерированный ранее, в список доверенных сертификатов, прибегать к отмене проверки сертификатов будет необязательно.
 
 
 
