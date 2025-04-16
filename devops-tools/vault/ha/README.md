@@ -96,8 +96,8 @@ VIP_IP_ADDRESS 192.168.95.29
 
 8) Скопируем сертификаты и ключи на узлы vault-b.open.lab и vault-c.open.lab:
    ```
-   scp ./vault-b-key.pem ./vault-b-cert.pem ./vault-ca-cert.pem vault-b.open.lab:/opt/vault/tls
-   scp ./vault-c-key.pem ./vault-c-cert.pem ./vault-ca-cert.pem vault-c.open.lab:/opt/vault/tls
+   scp ./vault-b-key.pem ./vault-b-cert.pem ./vault-ca-cert.pem farrukh@vault-b.open.lab:/opt/vault/tls
+   scp ./vault-c-key.pem ./vault-c-cert.pem ./vault-ca-cert.pem farrukh@vault-c.open.lab:/opt/vault/tls
    ```
 
 9) На каждом из узлов установим соответствующие права для доступа к файлам сертификатов и ключам (vault-a.open.lab):
