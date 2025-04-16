@@ -55,6 +55,7 @@ VIP_IP_ADDRESS 192.168.95.29
    DNS.1 = vault-a.open.lab
    IP.1 = 192.168.95.24
    IP.2 = 127.0.0.1
+   IP.3 = 192.168.95.29
    " > ./cert-a.cfg
    ```
    ```
@@ -64,6 +65,7 @@ VIP_IP_ADDRESS 192.168.95.29
    DNS.1 = vault-b.open.lab
    IP.1 = 192.168.95.25
    IP.2 = 127.0.0.1
+   IP.3 = 192.168.95.29
    " > ./cert-b.cfg
    ```
    ```
@@ -73,6 +75,7 @@ VIP_IP_ADDRESS 192.168.95.29
    DNS.1 = vault-c.open.lab
    IP.1 = 192.168.95.26
    IP.2 = 127.0.0.1
+   IP.3 = 192.168.95.29
    " > ./cert-c.cfg
    ```
 
