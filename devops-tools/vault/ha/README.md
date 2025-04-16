@@ -19,7 +19,8 @@ VIP_IP_ADDRESS 192.168.95.29
    192.168.95.25 vault-b.open.lab 
    192.168.95.26 vault-c.open.lab
    192.168.95.27 haproxy-a.open.lab 
-   192.168.95.28 haproxy-b.open.lab 
+   192.168.95.28 haproxy-b.open.lab
+   192.168.95.29 haproxy-vip.open.lab
    ```
 
 2) Установим hostname на каждой ноде (vault-a.open.lab, vault-b.open.lab, vault-c.open.lab):
