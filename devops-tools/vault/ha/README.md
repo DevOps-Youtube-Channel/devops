@@ -15,9 +15,11 @@ VIP_IP_ADDRESS 192.168.95.29
 
 1) На каждой ноде добавим следующие записи в ```nano /etc/hosts``` (vault-a.open.lab, vault-b.open.lab, vault-c.open.lab): 
    ```
-   vault-a.open.lab 192.168.95.24
-   vault-b.open.lab 192.168.95.25
-   vault-c.open.lab 192.168.95.26
+   192.168.95.24 vault-a.open.lab 
+   192.168.95.25 vault-b.open.lab 
+   192.168.95.26 vault-c.open.lab
+   192.168.95.27 haproxy-a.open.lab 
+   192.168.95.28 haproxy-b.open.lab 
    ```
 
 2) Установим hostname на каждой ноде (vault-a.open.lab, vault-b.open.lab, vault-c.open.lab):
@@ -28,6 +30,7 @@ VIP_IP_ADDRESS 192.168.95.29
    ```
 3) Установим на каждой ноде vault (vault-a.open.lab, vault-b.open.lab, vault-c.open.lab):
    ```
+   apt-get update
    wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
    sudo apt update && sudo apt install vault
@@ -441,10 +444,77 @@ VIP_IP_ADDRESS 192.168.95.29
 
 
 
+### HAProxy
 
+1) Установим на всех нодах
+   ```
+   apt-get update
+   apt-get install -y haproxy
+   ```
 
+2) Отредактируем файл haproxy.cfg
+   ```
+   frontend vault_frontend
+     bind *:8200
+     default_backend vault_backend
 
+   backend vault_backend
+     option httpchk GET /v1/sys/health
+     http-check expect status 200
+     server vault1 vault-a.open.lab:8200 check
+     server vault2 vault-b.open.lab:8200 check
+     server vault3 vault-c.open.lab:8200 check
+   ```
 
+3) Перезапустим службу
+   ```
+   systemctl restart haproxy.service
+   systemctl status haproxy.service
+   ```
+
+### Keepalived
+
+1) Установим keepalived
+   ```
+   apt-get install -y keepalived
+   ```
+
+2) Конфиг файл Мастера: keepalived.conf
+   ```
+   vrrp_instance VI_1 {
+    state MASTER
+    interface ens18
+    virtual_router_id 51
+    priority 150
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass mysecurepass
+    }
+    virtual_ipaddress {
+        192.168.95.29
+    }
+   }
+   ```
+
+3) Конфиг файл Слейва: keepalived.conf
+   ```
+   vrrp_instance VI_1 {
+    state BACKUP
+    interface ens18
+    virtual_router_id 51
+    priority 100
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass mysecurepass
+    }
+    virtual_ipaddress {
+        192.168.95.29
+    }
+   }
+   ```
+   
 
 
 
