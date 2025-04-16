@@ -298,12 +298,178 @@ VIP_IP_ADDRESS 192.168.95.29
     из пяти предоставленных ключей. Терять эти ключи не стоит!
     Так же нам предоставляется Root Token для доступа к Vault с максимальными правами.
 
-21) 
+21) Распечатаем Vault на первой ноде vault-a.open.lab:
+    ```
+    vault operator unseal
+    ```
+    ```
+    vault operator unseal
+    ```
+    ```
+    vault operator unseal
+    ```
+    *Примечание: каждый раз когда введём ```vault operator unseal``` от нас будет просит пароль. Мы должны ввести 3 разных пароля который получили во время команды  ```vault operator init```
+    На данном этапе мы настроили одну ноду Vault, а также инициализировали и распечатали ее. Теперь подключим в кластер две других ноды.
+    Ранее мы уже подготовили и разместили конфигурационные файлы на нодах vault-b.open.lab и vault-c.open.lab.
+
+22) Подключаемся к ноде vault-b.open.lab, запускаем Vault:
+    ```
+    systemctl enable --now vault
+    systemctl status vault
+    ```
+    Теперь, в отличии от первой ноды vault-a.open.lab, инициализировать Vault больше не нужно, но новая нода все еще в запечатанном состоянии.
+
+23) Распечатаем ноду vault-b.open.lab:
+    ```
+    export VAULT_SKIP_VERIFY="true"
+    ```
+    ```
+    vault operator unseal
+    ```
+    ```
+    vault operator unseal
+    ```
+    ```
+    vault operator unseal
+    ```
+    *Примечание: каждый раз когда введём ```vault operator unseal``` от нас будет просит пароль. Мы должны ввести 3 разных пароля который получили во время команды  ```vault operator init```
+    После распечатки нода будет подключена к кластеру. Можно обратить внимание, что новая нода находится в режиме standby, так же можно определить текущий адрес активной ноды. Это нода vault-a.open.lab.
+
+24) Подключимся к ноде vault-c.open.lab и выполним аналогичные действия:
+    ```
+    systemctl enable --now vault
+    systemctl status vault
+    export VAULT_SKIP_VERIFY="true"
+    ```
+    ```
+    vault operator unseal
+    ```
+    ```
+    vault operator unseal
+    ```
+    ```
+    vault operator unseal
+    ```
+    Теперь мы успешно сформировали кластер из трех нод. Вернемся на первую vault-a.open.lab и проверим состояние кластера.
+
+25) Перейдём на ноду vault-a.open.lab и авторизуемся с токеном, который был получен ранее:
+    ```
+    vault login
+    ```
+    ```
+    vault operator raft list-peers
+    ```
+    По статусу видно 3 сервера, один из которых в статусе лидера, а два других – ведомые.
+
+26) Попробуем добавить новый секрет в хранилище. Для этого используем механизм kv (key-value) на первой ноде vault-a.open.lab:
+    ```
+    vault secrets enable -path=vmik-secrets/ kv
+    ```
+
+27) И поместим секрет под именем db на первой ноде vault-a.open.lab:
+    ```
+    vault kv put vmik-secrets/db password=vmik
+    ```
+
+28) Посмотрим список всех секретов в нашем KV хранилище vmik-secrets на первой ноде vault-a.open.lab:
+    ```
+    vault kv list vmik-secrets
+    ```
+    ```
+    vault kv get vmik-secrets/db
+    ```
+
+29) Проверим работоспособность механизма HA. Отключим первую ноду vault-a.open.lab:
+    ```
+    shutdown -h now
+    ```
+
+30) Подключимся к второй ноде vault-a.open.lab и проверим статус:
+    ```
+    vault status
+    ```
+    HA Mode изменено со standby на active. Запросим список узлов raft:
+    ```
+    vault operator raft list-peers
+    ```
+    Лидер так же был перенесен на ноду vault-b.open.lab. В завершении запросим ранее созданный секрет:
+    ```
+    vault kv get vmik-secrets/db
+    ```
+
+31) Vault продолжает функционировать при потере одной активной ноды. Отключим ноду vault-b.open.lab. Теперь из трех узлов доступен только один. Проверим работоспособность:
+    ```
+    shutdown -h now
+    ```
+
+32) Статус Vault с ноды vault-c.open.lab:
+    ```
+    vault status
+    ```
+    Активная нода не изменилась. Нода vault-c.open.lab все так же в режиме standby. Аналогично, не удастся запросить и секрет, поскольку запрос перенаправляется на ранее активную ноду vault-b.open.lab:
+
+    ```
+    vault kv get vmik-secrets/db
+    ```
+
+33) Запустим обратно ноду vault-a.open.lab. После запуска, как и ожидается, нода vault-b.open.lab находится в статусе sealed:
+    ```
+    vault status
+    ```
+    Распечатаем:
+    ```
+    vault operator unseal
+    ```
+    ```
+    vault operator unseal
+    ```
+    ```
+    vault operator unseal
+    ```
+    Проверим статус:
+    ```
+    vault status
+    ```
+    Работа кластера восстановлена. Нода vault-c.open.lab теперь активная. Доступ к секретам так же восстановлен:
+    ```
+    vault kv get vmik-secrets/db
+    ```
+    Запустим обратно выключенную ноду B и распечатаем. На этом работа по настройке кластера Vault закончена.
+    Нерассмотренным остался один вопрос – как подключаться внешним клиентам? Подключение к любой из standby нод перенаправит запрос на active ноду, поэтому знать текущий адрес активной ноды не обязательно.
+    Однако, клиент может не знать все адреса Vault и в случае отключения известной ноды, доступ клиента к Vault может прекратиться.
+    
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
 
 
