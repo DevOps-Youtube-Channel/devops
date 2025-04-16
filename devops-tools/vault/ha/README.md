@@ -450,6 +450,20 @@ VIP_IP_ADDRESS 192.168.95.29
 
 ### HAProxy
 
+1) Создайте объединённый сертификат для HAProxy, если хотите использовать его для SSL-терминации (например, vault.pem). Это может быть комбинация вашего публичного сертификата и ключа.
+   Команду выполним на ноде vault-a.open.lab:
+   ```
+   cd /opt/vault/tls
+   ```
+   ```
+   cat vault-a-cert.pem vault-a-key.pem > /etc/haproxy/certs/vault.pem
+   ```
+   ```
+   scp /home/farrukh/vault.pem farrukh@192.168.95.27:/home/farruk
+   scp vault-ca-cert.pem farrukh@192.168.95.27:/home/farrukh
+   ```
+   
+
 1) Установим на всех нодах
    ```
    apt-get update
@@ -459,15 +473,16 @@ VIP_IP_ADDRESS 192.168.95.29
 2) Отредактируем файл haproxy.cfg
    ```
    frontend vault_frontend
-     bind *:8200
+     bind *:8200 ssl crt /etc/haproxy/certs/vault.pem alpn h2,http/1.1
      default_backend vault_backend
 
    backend vault_backend
      option httpchk GET /v1/sys/health
      http-check expect status 200
-     server vault1 vault-a.open.lab:8200 check
-     server vault2 vault-b.open.lab:8200 check
-     server vault3 vault-c.open.lab:8200 check
+     server vault1 vault-a.open.lab:8200 ssl verify required ca-file /etc/ssl/certs/vault-ca-cert.pem check
+     server vault2 vault-b.open.lab:8200 ssl verify required ca-file /etc/ssl/certs/vault-ca-cert.pem check
+     server vault3 vault-c.open.lab:8200 ssl verify required ca-file /etc/ssl/certs/vault-ca-cert.pem check
+
    ```
 
 3) Перезапустим службу
