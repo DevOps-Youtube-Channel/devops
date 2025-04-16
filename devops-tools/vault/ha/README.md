@@ -126,39 +126,39 @@ VIP_IP_ADDRESS 192.168.95.29
     ui = true
 
     listener "tcp" {
-  address            = "0.0.0.0:8200"
-  tls_ca_cert_file   = "/opt/vault/tls/vault-ca-cert.pem"
-  tls_cert_file      = "/opt/vault/tls/vault-a-cert.pem"
-  tls_key_file       = "/opt/vault/tls/vault-a-key.pem"
+      address            = "0.0.0.0:8200"
+      tls_ca_cert_file   = "/opt/vault/tls/vault-ca-cert.pem"
+      tls_cert_file      = "/opt/vault/tls/vault-a-cert.pem"
+      tls_key_file       = "/opt/vault/tls/vault-a-key.pem"
 
-}
+    }
 
-storage "raft" {
-  path    = "/opt/vault/data"
-  node_id = "vault-a.vmik.lab"
+    storage "raft" {
+      path    = "/opt/vault/data"
+      node_id = "vault-a.vmik.lab"
 
-  retry_join {
-    leader_tls_servername   = "vault-a.vmik.lab"
-    leader_api_addr         = "https://192.168.100.9:8200"
-    leader_ca_cert_file     = "/opt/vault/tls/vault-ca-cert.pem"
-    leader_client_cert_file = "/opt/vault/tls/vault-a-cert.pem"
-    leader_client_key_file  = "/opt/vault/tls/vault-a-key.pem"
-  }
-  retry_join {
-    leader_tls_servername   = "vault-b.vmik.lab"
-    leader_api_addr         = "https://192.168.100.10:8200"
-    leader_ca_cert_file     = "/opt/vault/tls/vault-ca-cert.pem"
-    leader_client_cert_file = "/opt/vault/tls/vault-a-cert.pem"
-    leader_client_key_file  = "/opt/vault/tls/vault-a-key.pem"
-  }
-  retry_join {
-    leader_tls_servername   = "vault-c.vmik.lab"
-    leader_api_addr         = "https://192.168.100.11:8200"
-    leader_ca_cert_file     = "/opt/vault/tls/vault-ca-cert.pem"
-    leader_client_cert_file = "/opt/vault/tls/vault-a-cert.pem"
-    leader_client_key_file  = "/opt/vault/tls/vault-a-key.pem"
-  }
-}
+      retry_join {
+        leader_tls_servername   = "vault-a.vmik.lab"
+        leader_api_addr         = "https://192.168.100.9:8200"
+        leader_ca_cert_file     = "/opt/vault/tls/vault-ca-cert.pem"
+        leader_client_cert_file = "/opt/vault/tls/vault-a-cert.pem"
+        leader_client_key_file  = "/opt/vault/tls/vault-a-key.pem"
+      }
+      retry_join {
+        leader_tls_servername   = "vault-b.vmik.lab"
+        leader_api_addr         = "https://192.168.100.10:8200"
+        leader_ca_cert_file     = "/opt/vault/tls/vault-ca-cert.pem"
+        leader_client_cert_file = "/opt/vault/tls/vault-a-cert.pem"
+        leader_client_key_file  = "/opt/vault/tls/vault-a-key.pem"
+      }
+      retry_join {
+        leader_tls_servername   = "vault-c.vmik.lab"
+        leader_api_addr         = "https://192.168.100.11:8200"
+        leader_ca_cert_file     = "/opt/vault/tls/vault-ca-cert.pem"
+        leader_client_cert_file = "/opt/vault/tls/vault-a-cert.pem"
+        leader_client_key_file  = "/opt/vault/tls/vault-a-key.pem"
+      }
+    }
     ```
 
 
