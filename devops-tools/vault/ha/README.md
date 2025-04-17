@@ -465,13 +465,13 @@ VIP_IP_ADDRESS 192.168.95.29
    ```
    
 
-1) Установим на всех нодах
+1) Установим haproxy на всех нодах haproxy1 haproxy2:
    ```
    apt-get update
    apt-get install -y haproxy
    ```
 
-2) Отредактируем файл haproxy.cfg
+2) Отредактируем файл на всех нодах haproxy1 haproxy2 ```nano /etc/haproxy/haproxy.cfg```
    ```
    frontend vault_frontend
      bind *:8200 ssl crt /etc/haproxy/certs/vault.pem alpn h2,http/1.1
@@ -486,7 +486,7 @@ VIP_IP_ADDRESS 192.168.95.29
 
    ```
 
-3) Перезапустим службу
+3) Перезапустим службу на всех нодах haproxy1 haproxy2:
    ```
    systemctl restart haproxy.service
    systemctl status haproxy.service
@@ -494,12 +494,13 @@ VIP_IP_ADDRESS 192.168.95.29
 
 ### Keepalived
 
-1) Установим keepalived
+1) Установим keepalived на haproxy1 haproxy2
    ```
+   apt-get update
    apt-get install -y keepalived
    ```
 
-2) Конфиг файл Мастера: keepalived.conf
+2) Конфиг файл Мастера haproxy1: nano /etc/keepalived/keepalived.conf
    ```
    vrrp_instance VI_1 {
     state MASTER
@@ -517,7 +518,7 @@ VIP_IP_ADDRESS 192.168.95.29
    }
    ```
 
-3) Конфиг файл Слейва: keepalived.conf
+3) Конфиг файл Слейва haproxy2: nano /etc/keepalived/keepalived.conf
    ```
    vrrp_instance VI_1 {
     state BACKUP
@@ -534,9 +535,11 @@ VIP_IP_ADDRESS 192.168.95.29
     }
    }
    ```
-   
 
-Источник:  https://vmik.net/2022/02/01/hc-vault-install-raft/
+
+Наш vault кластер теперь доступ по следующему сокету:  ```https://192.168.95.29:8200```
+
+```Источник:  https://vmik.net/2022/02/01/hc-vault-install-raft/```
 
 
 
