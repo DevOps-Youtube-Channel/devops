@@ -12,7 +12,7 @@ haproxy2 192.168.95.28 Ubuntu 22.04 server
 VIP_IP_ADDRESS 192.168.95.29
 ```
 
-#### VAULT
+### VAULT
 
 1) На каждой ноде добавим следующие записи в ```nano /etc/hosts``` (vault-a.open.lab, vault-b.open.lab, vault-c.open.lab): 
    ```
