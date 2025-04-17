@@ -1,5 +1,7 @@
 Инсталляция HashiCorp Vault в HA режиме с integrated storage
 
+![Example](vault-cluster-raft.png)
+
 Необходимые ресурсы:
 vault-a.open.lab 192.168.95.24 Ubuntu 22.04 server
 vault-b.open.lab 192.168.95.25 Ubuntu 22.04 server
