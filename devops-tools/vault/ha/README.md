@@ -535,10 +535,7 @@ VIP_IP_ADDRESS 192.168.95.29
    ```
    
 
-
-
-
-
+Источник:  https://vmik.net/2022/02/01/hc-vault-install-raft/
 
 
 
