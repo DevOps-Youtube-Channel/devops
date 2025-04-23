@@ -60,3 +60,8 @@
       helm push microservice-1.1.0.tgz microservice_v2
       ```
 
+   5) Создадим secret на Кубернетесе
+      ```
+      kubectl create secret docker-registry gitlab-regcred --docker-server=gitlab.zafarsaidov.uz:5050 --docker-username=farrukh-helm-login --docker-password=<pass> --docker-email=farrukh@admin.uz -n helm-farrukh
+      ```
+
