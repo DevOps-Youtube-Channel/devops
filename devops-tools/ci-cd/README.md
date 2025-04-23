@@ -53,7 +53,7 @@
    4) Cоздадим helm package
       ```
       helm package ./tic-tac-toe-helm --version 1.0.0
-      curl --request POST --form 'chart=@microservice_v2-1.1.0.tgz' --user helm-user:token https://gitlab.zafarsaidov.uz/api/v4/projects/3/packages/helm/api/stable/charts
+      curl --request POST --form 'chart=@tic-tac-toe-helm-1.0.0.tgz' --user farrukh-helm-login:token https://gitlab.zafarsaidov.uz/api/v4/projects/31/packages/helm/api/stable/charts
 
       helm repo add --username helm-user --password token microservice https://gitlab.zafarsaidov.uz/api/v4/projects/3/packages/helm/stable
 
