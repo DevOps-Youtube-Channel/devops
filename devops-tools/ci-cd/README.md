@@ -33,7 +33,7 @@
      variables:
        ENV_TAG: prod
      tags:
-       - arm
+       - farrukh-arm
 
    deploy:
      stage: deploy
