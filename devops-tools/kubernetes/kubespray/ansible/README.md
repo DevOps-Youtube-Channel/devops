@@ -33,6 +33,8 @@
    ```
 7) Далее узнаем версию Python и создаем виртуальную окружению
     ```
+    apt update
+    apt install python3-venv
     python3 -V
     python3 -m venv kubespray-venv   
     source kubespray-venv/bin/activate 
