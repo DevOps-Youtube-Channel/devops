@@ -36,7 +36,27 @@
 14) Как обновить версию nginx через императивным способом? ```kubectl set image deployment/my-deployment my-container=nginx:1.19.2```
 
                                     Ingress
-1) Как создать ingress? ```kubectl create ingress flaskapp-clusterip-ingress --rule="f-sadatov.sts404.uz/*=cluster-ip-service:80" --class nginx -n f-sadatov --dry-run=client -o yaml > ingress.yaml```
+1) Как установить ingress-controller чтобы он слушал hostnetwork+hostport: ```ingress-values.yaml```
+   ```
+   controller:
+   hostNetwork: true
+   daemonSet: true
+   hostPort:
+     enabled: true
+     ports:
+       http: 80
+       https: 443
+   service:
+     type: ClusterIP
+   admissionWebhooks:
+     enabled: false
+   ```
+
+   Теперь можно установить ingress-controller с помощью созданного выше ingress-values.yaml файла:
+   ```helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace -f ingress-values.yaml```
+
+
+3) Как создать ingress? ```kubectl create ingress flaskapp-clusterip-ingress --rule="f-sadatov.sts404.uz/*=cluster-ip-service:80" --class nginx -n f-sadatov --dry-run=client -o yaml > ingress.yaml```
    Не забудь добавить добавить в поле spec следующий запись:   ingressClassName: nginx
 
                                      Check
