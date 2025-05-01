@@ -1,4 +1,4 @@
-                                      Docker
+###Docker
 
 1) Как собрать докер образ под arm64? ```docker buildx create --use && docker buildx build --platform linux/arm64 -t flask-app:v1 --load .```
 2) Как отправить готовый докер образ в Docker Hub? ```docker login -u farrukhit && docker tag todo:v2 farrukhit/todo:v2 && docker push farrukhit/todo:v2```
