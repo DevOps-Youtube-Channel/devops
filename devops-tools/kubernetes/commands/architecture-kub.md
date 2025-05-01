@@ -53,10 +53,15 @@
    ```
 
    Теперь можно установить ingress-controller с помощью созданного выше ingress-values.yaml файла:
-   ```helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace -f ingress-values.yaml```
+   ```
+   helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace -f ingress-values.yaml
+   ```
 
 
-3) Как создать ingress? ```kubectl create ingress flaskapp-clusterip-ingress --rule="f-sadatov.sts404.uz/*=cluster-ip-service:80" --class nginx -n f-sadatov --dry-run=client -o yaml > ingress.yaml```
+3) Как создать ingress?
+   ```
+   kubectl create ingress flaskapp-clusterip-ingress --rule="f-sadatov.sts404.uz/*=cluster-ip-service:80" --class nginx -n f-sadatov --dry-run=client -o yaml > ingress.yaml
+   ```
    Не забудь добавить добавить в поле spec следующий запись:   ingressClassName: nginx
 
                                      Check
