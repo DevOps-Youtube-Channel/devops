@@ -1,10 +1,10 @@
-###Docker
+### Docker
 
 1) Как собрать докер образ под arm64? ```docker buildx create --use && docker buildx build --platform linux/arm64 -t flask-app:v1 --load .```
 2) Как отправить готовый докер образ в Docker Hub? ```docker login -u farrukhit && docker tag todo:v2 farrukhit/todo:v2 && docker push farrukhit/todo:v2```
                                         
                                         
-                                        POD
+   ### POD
 
 
 1) Как эскпортировать кубконфиг файл в Кубернетесе?  ```export KUBECONFIG=/home/farrukh/config.yaml```
@@ -20,7 +20,7 @@
 11) Как запустить pod из сгенирированного манифест файла? ```kubectl apply -f nginx-sadatov.yaml```
 
 
-                                     Deployment
+### Deployment
 1) Как запустить deployment под своим namespace-ом?  ```kubectl create deploy tic-tac-toe --image m2yy5eu3z/tic-tac-toe:arm64 --replicas 1 --port 3000 -n f-sadatov```
 2) Как посмотреть список deployment? ```kubectl get deployment -n f-sadatov```
 3) Как посмотреть список replicaset? ```kubectl get replicaset -n f-sadatov```
@@ -35,7 +35,7 @@
 13) Как изменить deployment файл напрямую из CLI? ```kubectl edit deployment/nginx-deploy```
 14) Как обновить версию nginx через императивным способом? ```kubectl set image deployment/my-deployment my-container=nginx:1.19.2```
 
-                                    Ingress
+### Ingress
 1) Как установить ingress-controller чтобы он слушал hostnetwork+hostport: ```ingress-values.yaml```
    ```
    controller:
@@ -64,5 +64,5 @@
    ```
    Не забудь добавить добавить в поле spec следующий запись:   ingressClassName: nginx
 
-                                     Check
+### Check
 1) Для проверки какого то запроса какой образ использовать ? ```kubectl run check-pod --image nicolaka/netshoot -n exam-farrukh -- sleep infinity```
