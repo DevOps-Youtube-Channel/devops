@@ -12,7 +12,7 @@ vrrp_instance VI_1 {
         auth_pass parolingiz
     }
     virtual_ipaddress {
-        10.162.0.10/32  # Virtual IP manzili
+        10.162.0.10/32  # vip айпи адрес
     }
     track_interface {
         ens4
