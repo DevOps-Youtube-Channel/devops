@@ -1,6 +1,6 @@
 ```
 <VirtualHost *:80>
-    ServerName 192.168.159.135
+    ServerName example.uz
 
     DocumentRoot /var/www/html
 
