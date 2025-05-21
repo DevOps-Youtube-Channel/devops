@@ -16,8 +16,12 @@ server {
     server_name example.uz www.example.uz;
 
 
-     ssl_certificate     /home/iadmin/example_ssl_new_new/STAR_example_uz.crt;
-     ssl_certificate_key /home/iadmin/example_ssl_new_new/example_private.key.txt;
+    ssl_certificate     /home/iadmin/example_ssl_new_new/STAR_example_uz.crt;
+    ssl_certificate_key /home/iadmin/example_ssl_new_new/example_private.key.txt;
+
+    access_log /var/log/nginx/example.uz_access.log;
+    error_log /var/log/nginx/example.uz_error.log;
+
 
 
     location / {
