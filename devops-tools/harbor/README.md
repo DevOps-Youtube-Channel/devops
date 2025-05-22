@@ -45,46 +45,46 @@
     ```
 10) Cоздадим файл harbor.yml: ```mv harbor.yml.tmpl harbor.yml```
 11) Редактируем файл harbor.yml: ```nano harbor.yml```
-   ```
+     ```
      # Configuration file of Harbor
      # The IP address or hostname to access admin UI and registry service.
      # DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.
-   hostname: harbor.farrukh.uz
+     hostname: harbor.farrukh.uz
 
      # http related config
-   http:
+     http:
      # port for http, default is 80. If https enabled, this port will redirect to https port
-     port: 80
+       port: 80
 
      # https related config
-   https:
+     https:
      # https port for harbor, default is 443
-     port: 443
+       port: 443
      # The path of cert and key files for nginx
-   certificate: /etc/docker/certs.d/harbor.farrukh.uz/harbor.farrukh.uz.cert
-   private_key: /etc/docker/certs.d/harbor.farrukh.uz/harbor.farrukh.uz.key
-   ```
+     certificate: /etc/docker/certs.d/harbor.farrukh.uz/harbor.farrukh.uz.cert
+     private_key: /etc/docker/certs.d/harbor.farrukh.uz/harbor.farrukh.uz.key
+     ```
 12) Cоздадим 3 скрипт файла по пути ```/opt/docker/harbor``` они приложены в репо: ```start.sh, stop.sh, restart.sh```
 13) Дадим права на выполнение скрипта: ```chmod +x start.sh stop.sh restart.sh```
 14) Создадим сервис для harbor: ```nano /etc/systemd/system/harbor.service```
-   ```
-   [Unit]
-   Description=Harbor Container Registry
-   Requires=docker.service
-   After=docker.service
+    ```
+    [Unit]
+    Description=Harbor Container Registry
+    Requires=docker.service
+    After=docker.service
 
-   [Service]
-   Type=oneshot
-   RemainAfterExit=true
-   WorkingDirectory=/opt/docker/harbor
-   ExecStart=/opt/docker/harbor/start.sh
-   ExecStop=/opt/docker/harbor/stop.sh
-   ExecReload=/opt/docker/harbor/restart.sh
-   TimeoutStartSec=0
+    [Service]
+    Type=oneshot
+    RemainAfterExit=true
+    WorkingDirectory=/opt/docker/harbor
+    ExecStart=/opt/docker/harbor/start.sh
+    ExecStop=/opt/docker/harbor/stop.sh
+    ExecReload=/opt/docker/harbor/restart.sh
+    TimeoutStartSec=0
 
-   [Install]
-   WantedBy=multi-user.target
-   ```
+    [Install]
+    WantedBy=multi-user.target
+    ```
 15) Cтартуем сервис harbor: ```systemctl start harbor.service```
 16) Проверим статус: ```systemctl status harbor.service```
 17) Добавим сервис в автозагрузку: ```systemctl enable harbor.service```
