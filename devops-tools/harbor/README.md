@@ -6,8 +6,45 @@
 2) Разархивируем архив: ```tar xzvf harbor-online-installer-v2.12.1.tgz```
 3) Создадим папку для работы: ```mkdir /opt/docker```
 4) Перенесем папку harbor в opt директорию: ```mv harbor /opt/docker/ && cd /opt/docker/harbor```
-5) Cоздадим файл harbor.yml: ```mv harbor.yml.tmpl harbor.yml```
-6) Редактируем файл harbor.yml: ```nano harbor.yml```
+5) Создадим необходимые сертификаты:
+   ```
+   openssl genrsa -out ca.key 4096
+   openssl req -x509 -new -nodes -sha512 -days 3650 -subj "/C=UZ/ST=Tashkent/L=Tashkent/O=Farrukh/OU=IT/CN=farrukh.uz" -key ca.key -out ca.crt
+   openssl genrsa -out harbor.farrukh.uz.key 4096
+   openssl req -sha512 -new -subj "/C=UZ/ST=Tashkent/L=Tashkent/O=Farrukh/OU=IT/CN=harbor.farrukh.uz" -key harbor.farrukh.uz.key -out harbor.farrukh.uz.csr
+   ```
+6) Создаём файла расширений v3.ext:
+   ```
+   cat > v3.ext <<-EOF
+   authorityKeyIdentifier=keyid,issuer
+   basicConstraints=CA:FALSE
+   keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+   extendedKeyUsage = serverAuth
+   subjectAltName = @alt_names
+
+   [alt_names]
+   DNS.1=harbor.farrukh.uz
+   EOF
+   ```
+7) Подпись CSR и выпуск серверного сертификата:
+   ```
+   openssl x509 -req -sha512 -days 3650 -extfile v3.ext -CA ca.crt -CAkey ca.key -CAcreateserial -in harbor.farrukh.uz.csr -out harbor.farrukh.uz.crt
+   ```
+
+8) Конвертация PEM → CRT (для некоторых систем)  
+   ```
+   openssl x509 -inform PEM -in harbor.farrukh.uz.crt -out harbor.farrukh.uz.cert
+   ```
+9) Положим сертификаты в нужные директории:
+    ```
+    mkdir -p /etc/docker/certs.d/harbor.farrukh.uz
+    cp ca.crt /etc/docker/certs.d/harbor.farrukh.uz/
+    cp harbor.farrukh.uz.cert /etc/docker/certs.d/harbor.farrukh.uz/
+    cp harbor.farrukh.uz.key /etc/docker/certs.d/harbor.farrukh.uz/
+    ls /etc/docker/certs.d/harbor.farrukh.uz/
+    ```
+10) Cоздадим файл harbor.yml: ```mv harbor.yml.tmpl harbor.yml```
+11) Редактируем файл harbor.yml: ```nano harbor.yml```
    ```
      # Configuration file of Harbor
      # The IP address or hostname to access admin UI and registry service.
@@ -27,7 +64,7 @@
    certificate: /etc/docker/certs.d/harbor.farrukh.uz/harbor.farrukh.uz.cert
    private_key: /etc/docker/certs.d/harbor.farrukh.uz/harbor.farrukh.uz.key
    ```
-7) Создадим сервис для harbor: ```nano /etc/systemd/system/harbor.service```
+12) Создадим сервис для harbor: ```nano /etc/systemd/system/harbor.service```
    ```
    [Unit]
    Description=Harbor Container Registry
@@ -46,4 +83,24 @@
    [Install]
    WantedBy=multi-user.target
    ```
-8) 
+13) Cтартуем сервис harbor: ```systemctl start harbor.service```
+14) Проверим статус: ```systemctl status harbor.service```
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
