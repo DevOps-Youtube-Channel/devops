@@ -94,7 +94,9 @@
 
     ![Example](images/harbor-ssl.png)
 
+18) Сначала эскпортируем основной сертификат в компьютер:
 
+    ![Example](images/harbor-main-ssl.png)
 
 
 
