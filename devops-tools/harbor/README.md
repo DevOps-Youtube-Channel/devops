@@ -49,7 +49,7 @@
      # Configuration file of Harbor
      # The IP address or hostname to access admin UI and registry service.
      # DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.
-   hostname: harbor.beeline.uz
+   hostname: harbor.farrukh.uz
 
      # http related config
    http:
