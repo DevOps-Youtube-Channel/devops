@@ -88,9 +88,11 @@
 15) Добавим сервис в автозагрузку: ```systemctl enable harbor.service```
 16) Так же проверим статус контейнеров harbor: ```docker ps```
     
-![Example](images/harbor-containers.png)
+    ![Example](images/harbor-containers.png)
 
-17) 
+17) Как сделать так чтобы сделать сертификат доверенным?
+
+    ![Example](images/harbor-ssl.png)
 
 
 
