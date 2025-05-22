@@ -85,7 +85,8 @@
    ```
 13) Cтартуем сервис harbor: ```systemctl start harbor.service```
 14) Проверим статус: ```systemctl status harbor.service```
-    
+15) Добавим сервис в автозагрузку: ```systemctl enable harbor.service```
+16) Так же проверим статус контейнеров harbor: ```docker ps```    
 
 
 
