@@ -64,7 +64,9 @@
    certificate: /etc/docker/certs.d/harbor.farrukh.uz/harbor.farrukh.uz.cert
    private_key: /etc/docker/certs.d/harbor.farrukh.uz/harbor.farrukh.uz.key
    ```
-12) Создадим сервис для harbor: ```nano /etc/systemd/system/harbor.service```
+12) Cоздадим 3 скрипт файла по пути ```/opt/docker/harbor``` они приложены в репо: ```start.sh, stop.sh, restart.sh```
+13) Дадим права на выполнение скрипта: ```chmod +x start.sh stop.sh restart.sh```
+14) Создадим сервис для harbor: ```nano /etc/systemd/system/harbor.service```
    ```
    [Unit]
    Description=Harbor Container Registry
@@ -83,23 +85,23 @@
    [Install]
    WantedBy=multi-user.target
    ```
-13) Cтартуем сервис harbor: ```systemctl start harbor.service```
-14) Проверим статус: ```systemctl status harbor.service```
-15) Добавим сервис в автозагрузку: ```systemctl enable harbor.service```
-16) Так же проверим статус контейнеров harbor: ```docker ps```
+15) Cтартуем сервис harbor: ```systemctl start harbor.service```
+16) Проверим статус: ```systemctl status harbor.service```
+17) Добавим сервис в автозагрузку: ```systemctl enable harbor.service```
+18) Так же проверим статус контейнеров harbor: ```docker ps```
     
     ![Example](images/harbor-containers.png)
 
-17) Как сделать так чтобы сделать сертификат доверенным?
+19) Как сделать так чтобы сделать сертификат доверенным?
 
     ![Example](images/harbor-ssl.png)
 
-18) Сначала эскпортируем основной сертификат в компьютер:
+20) Сначала эскпортируем основной сертификат в компьютер:
 
     ![Example](images/harbor-main-ssl.png)
 
-19) Переходим в Google Chrome: ``` Настройки --> Конфиденциальность и безопасность --> Безопасность --> Настроить сертификаты --> Персонализированные --> Установленные вами --> Импорт```
-20) Далее обновим страницу так же удалим кеш у браузера: ```ctrl+F5```
+21) Переходим в Google Chrome: ``` Настройки --> Конфиденциальность и безопасность --> Безопасность --> Настроить сертификаты --> Персонализированные --> Установленные вами --> Импорт```
+22) Далее обновим страницу так же удалим кеш у браузера: ```ctrl+F5```
     
     ![Example](images/harbor-with-ssl.png)
 
